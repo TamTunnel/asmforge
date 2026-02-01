@@ -1,14 +1,14 @@
 {
     "private": true,
-    "name": "nova-assembly-ide",
+    "name": "asmforge-ide",
     "version": "0.1.0",
-    "description": "NOVA: Neural Optimization Virtual Assistant for Assembly - An AI-powered Assembly language IDE",
+    "description": "AsmForge IDE - AI-powered Assembly language IDE built on Eclipse Theia",
     "license": "MIT",
-    "author": "NOVA Team",
-    "homepage": "https://github.com/nova-assembly-ide",
+    "author": "AsmForge Team",
+    "homepage": "https://github.com/asmforge-ide",
     "repository": {
         "type": "git",
-        "url": "https://github.com/nova-assembly-ide/nova.git"
+        "url": "https://github.com/asmforge-ide/asmforge.git"
     },
     "engines": {
         "node": ">=20.0.0",
@@ -20,15 +20,17 @@
         "electron-app"
     ],
     "scripts": {
-        "clean": "npm run clean --workspaces --if-present",
-        "build": "npm run build --workspaces --if-present",
-        "watch": "npm run watch --workspaces --if-present",
-        "start:browser": "npm run start --workspace=browser-app",
+        "clean": "npm run clean --workspaces --if-present && rimraf plugins",
+        "build": "npm run build --workspace=browser-app",
+        "build:electron": "npm run build --workspace=electron-app",
+        "build:all": "npm run build --workspaces --if-present",
+        "watch": "npm run watch --workspace=browser-app",
+        "start": "npm run start --workspace=browser-app",
         "start:electron": "npm run start --workspace=electron-app",
-        "lint": "eslint packages/ browser-app/ electron-app/ --ext .ts,.tsx",
+        "package:electron": "npm run package --workspace=electron-app",
+        "lint": "eslint . --ext .ts,.tsx",
         "lint:fix": "npm run lint -- --fix",
-        "test": "npm run test --workspaces --if-present",
-        "prepare": "npm run build"
+        "test": "npm run test --workspaces --if-present"
     },
     "devDependencies": {
         "@eslint/js": "^9.0.0",
@@ -38,7 +40,9 @@
         "prettier": "^3.2.0",
         "rimraf": "^5.0.5",
         "typescript": "~5.3.3",
-        "typescript-eslint": "^8.0.0"
+        "typescript-eslint": "^8.0.0",
+        "webpack": "^5.104.1",
+        "webpack-cli": "^5.1.4"
     },
     "theiaPluginsDir": "plugins",
     "theiaPlugins": {

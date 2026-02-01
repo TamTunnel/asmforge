@@ -1,60 +1,90 @@
 {
-  "name": "browser-app",
-  "version": "0.1.0",
-  "private": true,
-  "description": "NOVA Assembly IDE - Browser Application",
-  "dependencies": {
-    "@theia/core": "1.55.0",
-    "@theia/editor": "1.55.0",
-    "@theia/filesystem": "1.55.0",
-    "@theia/markers": "1.55.0",
-    "@theia/messages": "1.55.0",
-    "@theia/monaco": "1.55.0",
-    "@theia/navigator": "1.55.0",
-    "@theia/outline-view": "1.55.0",
-    "@theia/output": "1.55.0",
-    "@theia/preferences": "1.55.0",
-    "@theia/process": "1.55.0",
-    "@theia/search-in-workspace": "1.55.0",
-    "@theia/terminal": "1.55.0",
-    "@theia/workspace": "1.55.0",
-    "@theia/debug": "1.55.0",
-    "@theia/ai-core": "1.55.0",
-    "@theia/ai-chat": "1.55.0",
-    "@theia/ai-chat-ui": "1.55.0",
-    "@nova/nova-core": "*",
-    "@nova/nova-assembly-lsp": "*",
-    "@nova/nova-debug": "*",
-    "@nova/nova-ai": "*"
-  },
-  "devDependencies": {
-    "@theia/cli": "1.55.0"
-  },
-  "scripts": {
-    "clean": "rimraf lib && rimraf gen-webpack.config.js",
-    "prepare": "theia build --mode development",
-    "build": "theia build --mode production",
-    "start": "theia start --hostname 0.0.0.0 --port 3000",
-    "start:debug": "theia start --hostname 0.0.0.0 --port 3000 --loglevel=debug",
-    "watch": "theia build --watch --mode development"
-  },
-  "theia": {
-    "target": "browser",
-    "frontend": {
-      "config": {
-        "applicationName": "NOVA Assembly IDE",
-        "preferences": {
-          "editor.fontSize": 14,
-          "editor.fontFamily": "'JetBrains Mono', 'Fira Code', 'Consolas', monospace",
-          "editor.fontLigatures": true,
-          "editor.tabSize": 4,
-          "editor.insertSpaces": false,
-          "editor.minimap.enabled": true,
-          "editor.renderWhitespace": "boundary",
-          "workbench.colorTheme": "dark"
-        },
-        "defaultIconTheme": "theia-file-icons"
-      }
+    "name": "browser-app",
+    "version": "0.1.0",
+    "private": true,
+    "description": "AsmForge IDE - Browser Application",
+    "dependencies": {
+        "@theia/core": "1.67.0",
+        "@theia/editor": "1.67.0",
+        "@theia/filesystem": "1.67.0",
+        "@theia/markers": "1.67.0",
+        "@theia/messages": "1.67.0",
+        "@theia/monaco": "1.67.0",
+        "@theia/navigator": "1.67.0",
+        "@theia/outline-view": "1.67.0",
+        "@theia/output": "1.67.0",
+        "@theia/preferences": "1.67.0",
+        "@theia/process": "1.67.0",
+        "@theia/search-in-workspace": "1.67.0",
+        "@theia/terminal": "1.67.0",
+        "@theia/workspace": "1.67.0",
+        "@theia/debug": "1.67.0",
+        "@theia/callhierarchy": "1.67.0",
+        "@theia/file-search": "1.67.0",
+        "@theia/scm": "1.67.0"
+    },
+    "devDependencies": {
+        "@theia/cli": "1.67.0"
+    },
+    "scripts": {
+        "clean": "rimraf lib gen-webpack.config.js src-gen",
+        "build": "theia build --mode production",
+        "build:dev": "theia build --mode development",
+        "start": "theia start --hostname 0.0.0.0 --port 3000",
+        "start:debug": "theia start --hostname 0.0.0.0 --port 3000 --log-level=debug",
+        "watch": "theia build --watch --mode development"
+    },
+    "theia": {
+        "target": "browser",
+        "frontend": {
+            "config": {
+                "applicationName": "AsmForge IDE",
+                "warnOnPotentiallyInsecureHostPattern": false,
+                "preferences": {
+                    "workbench.colorTheme": "dark",
+                    "editor.fontSize": 14,
+                    "editor.fontFamily": "'JetBrains Mono', 'Fira Code', 'Source Code Pro', 'Consolas', monospace",
+                    "editor.fontLigatures": true,
+                    "editor.tabSize": 4,
+                    "editor.insertSpaces": false,
+                    "editor.minimap.enabled": true,
+                    "editor.minimap.renderCharacters": false,
+                    "editor.renderWhitespace": "selection",
+                    "editor.cursorStyle": "block",
+                    "editor.cursorBlinking": "smooth",
+                    "editor.lineNumbers": "on",
+                    "editor.rulers": [
+                        80,
+                        120
+                    ],
+                    "editor.wordWrap": "off",
+                    "terminal.integrated.fontFamily": "'JetBrains Mono', 'Fira Code', monospace",
+                    "terminal.integrated.fontSize": 13,
+                    "workbench.iconTheme": "theia-file-icons",
+                    "window.menuBarVisibility": "visible",
+                    "workbench.colorCustomizations": {
+                        "editor.background": "#0d1117",
+                        "editor.foreground": "#c9d1d9",
+                        "editorLineNumber.foreground": "#6e7681",
+                        "editorLineNumber.activeForeground": "#f0883e",
+                        "editor.selectionBackground": "#264f78",
+                        "editor.lineHighlightBackground": "#161b22",
+                        "activityBar.background": "#0d1117",
+                        "activityBar.foreground": "#f0883e",
+                        "sideBar.background": "#0d1117",
+                        "sideBar.foreground": "#c9d1d9",
+                        "sideBarSectionHeader.background": "#161b22",
+                        "titleBar.activeBackground": "#0d1117",
+                        "titleBar.activeForeground": "#f0883e",
+                        "statusBar.background": "#0d1117",
+                        "statusBar.foreground": "#8b949e",
+                        "terminal.background": "#0d1117",
+                        "terminal.foreground": "#c9d1d9",
+                        "panel.background": "#0d1117"
+                    }
+                },
+                "defaultIconTheme": "theia-file-icons"
+            }
+        }
     }
-  }
 }

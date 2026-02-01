@@ -1,93 +1,138 @@
 {
-  "name": "electron-app",
-  "version": "0.1.0",
-  "private": true,
-  "description": "NOVA Assembly IDE - Electron Desktop Application",
-  "main": "lib/backend/electron-main.js",
-  "dependencies": {
-    "@theia/core": "1.55.0",
-    "@theia/editor": "1.55.0",
-    "@theia/electron": "1.55.0",
-    "@theia/filesystem": "1.55.0",
-    "@theia/markers": "1.55.0",
-    "@theia/messages": "1.55.0",
-    "@theia/monaco": "1.55.0",
-    "@theia/navigator": "1.55.0",
-    "@theia/outline-view": "1.55.0",
-    "@theia/output": "1.55.0",
-    "@theia/preferences": "1.55.0",
-    "@theia/process": "1.55.0",
-    "@theia/search-in-workspace": "1.55.0",
-    "@theia/terminal": "1.55.0",
-    "@theia/workspace": "1.55.0",
-    "@theia/debug": "1.55.0",
-    "@theia/ai-core": "1.55.0",
-    "@theia/ai-chat": "1.55.0",
-    "@theia/ai-chat-ui": "1.55.0",
-    "@nova/nova-core": "*",
-    "@nova/nova-assembly-lsp": "*",
-    "@nova/nova-debug": "*",
-    "@nova/nova-ai": "*"
-  },
-  "devDependencies": {
-    "@theia/cli": "1.55.0"
-  },
-  "scripts": {
-    "clean": "rimraf lib && rimraf gen-webpack.config.js",
-    "prepare": "theia build --mode development",
-    "build": "theia build --mode production",
-    "start": "electron .",
-    "watch": "theia build --watch --mode development",
-    "package": "electron-builder -c.mac.identity=null"
-  },
-  "theia": {
-    "target": "electron",
-    "frontend": {
-      "config": {
-        "applicationName": "NOVA Assembly IDE",
-        "preferences": {
-          "editor.fontSize": 14,
-          "editor.fontFamily": "'JetBrains Mono', 'Fira Code', 'Consolas', monospace",
-          "editor.fontLigatures": true,
-          "editor.tabSize": 4,
-          "editor.insertSpaces": false,
-          "editor.minimap.enabled": true,
-          "editor.renderWhitespace": "boundary",
-          "workbench.colorTheme": "dark"
+    "name": "electron-app",
+    "version": "0.1.0",
+    "private": true,
+    "description": "AsmForge IDE - Desktop Application",
+    "main": "lib/backend/electron-main.js",
+    "dependencies": {
+        "@theia/core": "1.67.0",
+        "@theia/editor": "1.67.0",
+        "@theia/electron": "1.67.0",
+        "@theia/filesystem": "1.67.0",
+        "@theia/markers": "1.67.0",
+        "@theia/messages": "1.67.0",
+        "@theia/monaco": "1.67.0",
+        "@theia/navigator": "1.67.0",
+        "@theia/outline-view": "1.67.0",
+        "@theia/output": "1.67.0",
+        "@theia/preferences": "1.67.0",
+        "@theia/process": "1.67.0",
+        "@theia/search-in-workspace": "1.67.0",
+        "@theia/terminal": "1.67.0",
+        "@theia/workspace": "1.67.0",
+        "@theia/debug": "1.67.0",
+        "@theia/callhierarchy": "1.67.0",
+        "@theia/file-search": "1.67.0",
+        "@theia/scm": "1.67.0"
+    },
+    "devDependencies": {
+        "@theia/cli": "1.67.0",
+        "electron": "^38.4.0",
+        "electron-builder": "^24.9.0"
+    },
+    "scripts": {
+        "clean": "rimraf lib gen-webpack.config.js src-gen dist",
+        "build": "theia build --mode production",
+        "build:dev": "theia build --mode development",
+        "start": "electron .",
+        "watch": "theia build --watch --mode development",
+        "package": "electron-builder -c.mac.identity=null",
+        "package:all": "electron-builder -mwl"
+    },
+    "theia": {
+        "target": "electron",
+        "frontend": {
+            "config": {
+                "applicationName": "AsmForge IDE",
+                "splashLogo": "resources/asmforge-splash.svg",
+                "preferences": {
+                    "workbench.colorTheme": "dark",
+                    "editor.fontSize": 14,
+                    "editor.fontFamily": "'JetBrains Mono', 'Fira Code', 'Source Code Pro', 'Consolas', monospace",
+                    "editor.fontLigatures": true,
+                    "editor.tabSize": 4,
+                    "editor.insertSpaces": false,
+                    "editor.minimap.enabled": true,
+                    "editor.cursorStyle": "block",
+                    "editor.rulers": [
+                        80,
+                        120
+                    ],
+                    "terminal.integrated.fontFamily": "'JetBrains Mono', 'Fira Code', monospace",
+                    "terminal.integrated.fontSize": 13,
+                    "workbench.iconTheme": "theia-file-icons",
+                    "workbench.colorCustomizations": {
+                        "editor.background": "#0d1117",
+                        "editor.foreground": "#c9d1d9",
+                        "editorLineNumber.foreground": "#6e7681",
+                        "editorLineNumber.activeForeground": "#f0883e",
+                        "editor.selectionBackground": "#264f78",
+                        "editor.lineHighlightBackground": "#161b22",
+                        "activityBar.background": "#0d1117",
+                        "activityBar.foreground": "#f0883e",
+                        "sideBar.background": "#0d1117",
+                        "sideBar.foreground": "#c9d1d9",
+                        "sideBarSectionHeader.background": "#161b22",
+                        "titleBar.activeBackground": "#0d1117",
+                        "titleBar.activeForeground": "#f0883e",
+                        "statusBar.background": "#0d1117",
+                        "statusBar.foreground": "#8b949e",
+                        "terminal.background": "#0d1117",
+                        "terminal.foreground": "#c9d1d9",
+                        "panel.background": "#0d1117"
+                    }
+                },
+                "defaultIconTheme": "theia-file-icons"
+            }
         },
-        "defaultIconTheme": "theia-file-icons"
-      }
+        "backend": {
+            "config": {}
+        }
     },
-    "backend": {
-      "config": {}
+    "build": {
+        "appId": "com.asmforge.ide",
+        "productName": "AsmForge IDE",
+        "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
+        "directories": {
+            "output": "dist"
+        },
+        "files": [
+            "lib/**/*",
+            "src-gen/**/*",
+            "resources/**/*"
+        ],
+        "extraResources": [
+            {
+                "from": "resources",
+                "to": "resources"
+            }
+        ],
+        "mac": {
+            "category": "public.app-category.developer-tools",
+            "icon": "resources/icon.icns",
+            "target": [
+                "dmg",
+                "zip"
+            ]
+        },
+        "linux": {
+            "target": [
+                "AppImage",
+                "deb"
+            ],
+            "icon": "resources/icons",
+            "category": "Development"
+        },
+        "win": {
+            "target": [
+                "nsis",
+                "portable"
+            ],
+            "icon": "resources/icon.ico"
+        },
+        "nsis": {
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true
+        }
     }
-  },
-  "build": {
-    "appId": "com.nova.assembly-ide",
-    "productName": "NOVA Assembly IDE",
-    "directories": {
-      "output": "dist"
-    },
-    "mac": {
-      "category": "public.app-category.developer-tools",
-      "target": [
-        "dmg",
-        "zip"
-      ]
-    },
-    "linux": {
-      "target": [
-        "AppImage",
-        "deb",
-        "rpm"
-      ],
-      "category": "Development"
-    },
-    "win": {
-      "target": [
-        "nsis",
-        "zip"
-      ]
-    }
-  }
 }
