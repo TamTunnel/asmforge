@@ -1,0 +1,93 @@
+{
+  "name": "electron-app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "NOVA Assembly IDE - Electron Desktop Application",
+  "main": "lib/backend/electron-main.js",
+  "dependencies": {
+    "@theia/core": "1.55.0",
+    "@theia/editor": "1.55.0",
+    "@theia/electron": "1.55.0",
+    "@theia/filesystem": "1.55.0",
+    "@theia/markers": "1.55.0",
+    "@theia/messages": "1.55.0",
+    "@theia/monaco": "1.55.0",
+    "@theia/navigator": "1.55.0",
+    "@theia/outline-view": "1.55.0",
+    "@theia/output": "1.55.0",
+    "@theia/preferences": "1.55.0",
+    "@theia/process": "1.55.0",
+    "@theia/search-in-workspace": "1.55.0",
+    "@theia/terminal": "1.55.0",
+    "@theia/workspace": "1.55.0",
+    "@theia/debug": "1.55.0",
+    "@theia/ai-core": "1.55.0",
+    "@theia/ai-chat": "1.55.0",
+    "@theia/ai-chat-ui": "1.55.0",
+    "@nova/nova-core": "*",
+    "@nova/nova-assembly-lsp": "*",
+    "@nova/nova-debug": "*",
+    "@nova/nova-ai": "*"
+  },
+  "devDependencies": {
+    "@theia/cli": "1.55.0"
+  },
+  "scripts": {
+    "clean": "rimraf lib && rimraf gen-webpack.config.js",
+    "prepare": "theia build --mode development",
+    "build": "theia build --mode production",
+    "start": "electron .",
+    "watch": "theia build --watch --mode development",
+    "package": "electron-builder -c.mac.identity=null"
+  },
+  "theia": {
+    "target": "electron",
+    "frontend": {
+      "config": {
+        "applicationName": "NOVA Assembly IDE",
+        "preferences": {
+          "editor.fontSize": 14,
+          "editor.fontFamily": "'JetBrains Mono', 'Fira Code', 'Consolas', monospace",
+          "editor.fontLigatures": true,
+          "editor.tabSize": 4,
+          "editor.insertSpaces": false,
+          "editor.minimap.enabled": true,
+          "editor.renderWhitespace": "boundary",
+          "workbench.colorTheme": "dark"
+        },
+        "defaultIconTheme": "theia-file-icons"
+      }
+    },
+    "backend": {
+      "config": {}
+    }
+  },
+  "build": {
+    "appId": "com.nova.assembly-ide",
+    "productName": "NOVA Assembly IDE",
+    "directories": {
+      "output": "dist"
+    },
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm"
+      ],
+      "category": "Development"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    }
+  }
+}

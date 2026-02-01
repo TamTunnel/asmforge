@@ -1,0 +1,36 @@
+{
+  "name": "@nova/nova-debug",
+  "version": "0.1.0",
+  "description": "NOVA Assembly IDE - Debug Adapter for GDB",
+  "license": "MIT",
+  "keywords": [
+    "theia-extension"
+  ],
+  "main": "lib/browser/nova-debug-frontend-module",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "dependencies": {
+    "@theia/core": "1.55.0",
+    "@theia/debug": "1.55.0",
+    "@vscode/debugadapter": "^1.65.0",
+    "@vscode/debugprotocol": "^1.65.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "rimraf": "^5.0.5",
+    "typescript": "~5.3.3"
+  },
+  "scripts": {
+    "clean": "rimraf lib",
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "theiaExtensions": [
+    {
+      "frontend": "lib/browser/nova-debug-frontend-module",
+      "backend": "lib/node/nova-debug-backend-module"
+    }
+  ]
+}
