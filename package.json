@@ -1,48 +1,47 @@
 {
-  "private": true,
-  "name": "nova-assembly-ide",
-  "version": "0.1.0",
-  "description": "NOVA: Neural Optimization Virtual Assistant for Assembly - An AI-powered Assembly language IDE",
-  "license": "MIT",
-  "author": "NOVA Team",
-  "homepage": "https://github.com/nova-assembly-ide",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nova-assembly-ide/nova.git"
-  },
-  "engines": {
-    "node": ">=20.0.0",
-    "npm": ">=10.0.0"
-  },
-  "workspaces": [
-    "packages/*",
-    "browser-app",
-    "electron-app"
-  ],
-  "scripts": {
-    "clean": "npm run clean --workspaces --if-present",
-    "build": "npm run build --workspaces --if-present",
-    "watch": "npm run watch --workspaces --if-present",
-    "start:browser": "npm run start --workspace=browser-app",
-    "start:electron": "npm run start --workspace=electron-app",
-    "lint": "eslint packages/ browser-app/ electron-app/ --ext .ts,.tsx",
-    "lint:fix": "npm run lint -- --fix",
-    "test": "npm run test --workspaces --if-present",
-    "prepare": "npm run build"
-  },
-  "devDependencies": {
-    "@types/node": "^20.10.0",
-    "@typescript-eslint/eslint-plugin": "^7.0.0",
-    "@typescript-eslint/parser": "^7.0.0",
-    "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.1.0",
-    "prettier": "^3.2.0",
-    "rimraf": "^5.0.5",
-    "typescript": "~5.3.3"
-  },
-  "theiaPluginsDir": "plugins",
-  "theiaPlugins": {
-    "vscode-builtin-extensions-pack": "https://open-vsx.org/api/AntGrpOPEN/vscode-builtin-extensions-pack/1.0.0/file/AntGrpOPEN.vscode-builtin-extensions-pack-1.0.0.vsix"
-  }
+    "private": true,
+    "name": "nova-assembly-ide",
+    "version": "0.1.0",
+    "description": "NOVA: Neural Optimization Virtual Assistant for Assembly - An AI-powered Assembly language IDE",
+    "license": "MIT",
+    "author": "NOVA Team",
+    "homepage": "https://github.com/nova-assembly-ide",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/nova-assembly-ide/nova.git"
+    },
+    "engines": {
+        "node": ">=20.0.0",
+        "npm": ">=10.0.0"
+    },
+    "workspaces": [
+        "packages/*",
+        "browser-app",
+        "electron-app"
+    ],
+    "scripts": {
+        "clean": "npm run clean --workspaces --if-present",
+        "build": "npm run build --workspaces --if-present",
+        "watch": "npm run watch --workspaces --if-present",
+        "start:browser": "npm run start --workspace=browser-app",
+        "start:electron": "npm run start --workspace=electron-app",
+        "lint": "eslint packages/ browser-app/ electron-app/ --ext .ts,.tsx",
+        "lint:fix": "npm run lint -- --fix",
+        "test": "npm run test --workspaces --if-present",
+        "prepare": "npm run build"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.0.0",
+        "@types/node": "^20.10.0",
+        "eslint": "^9.0.0",
+        "eslint-config-prettier": "^9.1.0",
+        "prettier": "^3.2.0",
+        "rimraf": "^5.0.5",
+        "typescript": "~5.3.3",
+        "typescript-eslint": "^8.0.0"
+    },
+    "theiaPluginsDir": "plugins",
+    "theiaPlugins": {
+        "vscode-builtin-extensions-pack": "https://open-vsx.org/api/AntGrpOPEN/vscode-builtin-extensions-pack/1.0.0/file/AntGrpOPEN.vscode-builtin-extensions-pack-1.0.0.vsix"
+    }
 }
