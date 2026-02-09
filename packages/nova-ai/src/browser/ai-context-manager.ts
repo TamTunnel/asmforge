@@ -154,7 +154,13 @@ export class AIContextManager {
         if (!editor) return undefined;
 
         const selection = editor.selection;
-        if (selection.isEmpty) return undefined;
+        // Check if selection is empty by comparing start and end positions
+        if (
+            selection.start.line === selection.end.line &&
+            selection.start.character === selection.end.character
+        ) {
+            return undefined;
+        }
 
         return editor.document.getText(selection);
     }

@@ -134,8 +134,8 @@ export const CorePreferenceSchema: PreferenceSchema = {
     },
 };
 
-/** Preference interface for type safety */
-export interface CorePreferences {
+/** Preference configuration interface for type safety */
+export interface CorePreferenceConfiguration {
     // Architecture
     'asmforge.architecture.default': string;
     'asmforge.architecture.autoDetect': boolean;
@@ -162,7 +162,7 @@ export interface CorePreferences {
 }
 
 export const CorePreferences = Symbol('CorePreferences');
-export type CorePreferences = PreferenceProxy<CorePreferences>;
+export type CorePreferences = PreferenceProxy<CorePreferenceConfiguration>;
 
 export function createCorePreferences(preferences: PreferenceService): CorePreferences {
     return createPreferenceProxy(preferences, CorePreferenceSchema);
