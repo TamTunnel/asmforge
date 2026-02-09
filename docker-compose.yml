@@ -1,0 +1,61 @@
+# Docker Compose for AsmForge IDE
+# Production deployment configuration
+
+services:
+  asmforge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ghcr.io/tamtunnel/asmforge:latest
+    container_name: asmforge-ide
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - THEIA_DEFAULT_PLUGINS=local-dir:plugins
+    volumes:
+      # Persist user workspace
+      - asmforge-workspace:/home/asmforge/workspace
+    networks:
+      - asmforge-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+
+  # Optional: Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: asmforge-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      asmforge:
+        condition: service_healthy
+    networks:
+      - asmforge-net
+    profiles:
+      - production
+
+networks:
+  asmforge-net:
+    driver: bridge
+
+volumes:
+  asmforge-workspace:

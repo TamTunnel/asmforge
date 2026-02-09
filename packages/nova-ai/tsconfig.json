@@ -1,8 +1,28 @@
 {
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "outDir": "lib",
-    "rootDir": "src"
-  },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+    "compilerOptions": {
+        "composite": true,
+        "rootDir": "src",
+        "outDir": "lib",
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "noEmitOnError": false,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "module": "CommonJS",
+        "moduleResolution": "Node",
+        "target": "ES2022",
+        "lib": ["ES2022", "DOM"],
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules", "lib"],
+    "references": []
 }

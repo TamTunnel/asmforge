@@ -1,0 +1,38 @@
+{
+    "name": "@asmforge/memory-viewer",
+    "version": "0.1.0",
+    "description": "AsmForge IDE - Memory Inspection Widget",
+    "license": "MIT",
+    "keywords": [
+        "theia-extension",
+        "assembly",
+        "debugger",
+        "memory"
+    ],
+    "main": "lib/browser/memory-frontend-module",
+    "files": [
+        "lib",
+        "src"
+    ],
+    "dependencies": {
+        "@theia/core": "1.68.0",
+        "@theia/debug": "1.68.0"
+    },
+    "devDependencies": {
+        "@types/node": "^20.10.0",
+        "@types/react": "^18.2.0",
+        "@types/react-dom": "^18.2.0",
+        "rimraf": "^5.0.5",
+        "typescript": "~5.3.3"
+    },
+    "scripts": {
+        "clean": "rimraf lib",
+        "build": "tsc",
+        "watch": "tsc -w"
+    },
+    "theiaExtensions": [
+        {
+            "frontend": "lib/browser/memory-frontend-module"
+        }
+    ]
+}

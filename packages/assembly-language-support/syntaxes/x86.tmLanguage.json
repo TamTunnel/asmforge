@@ -1,0 +1,301 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "x86 Assembly",
+    "scopeName": "source.asm.x86",
+    "fileTypes": ["asm", "s", "S", "nasm", "yasm", "masm", "fasm"],
+    "patterns": [
+        {
+            "include": "#comments"
+        },
+        {
+            "include": "#strings"
+        },
+        {
+            "include": "#numbers"
+        },
+        {
+            "include": "#labels"
+        },
+        {
+            "include": "#registers"
+        },
+        {
+            "include": "#instructions"
+        },
+        {
+            "include": "#directives"
+        },
+        {
+            "include": "#operators"
+        }
+    ],
+    "repository": {
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.line.semicolon.asm.x86",
+                    "match": ";.*$"
+                },
+                {
+                    "name": "comment.line.hash.asm.x86",
+                    "match": "#.*$"
+                },
+                {
+                    "name": "comment.block.asm.x86",
+                    "begin": "/\\*",
+                    "end": "\\*/"
+                }
+            ]
+        },
+        "strings": {
+            "patterns": [
+                {
+                    "name": "string.quoted.double.asm.x86",
+                    "begin": "\"",
+                    "end": "\"",
+                    "patterns": [
+                        {
+                            "name": "constant.character.escape.asm.x86",
+                            "match": "\\\\."
+                        }
+                    ]
+                },
+                {
+                    "name": "string.quoted.single.asm.x86",
+                    "begin": "'",
+                    "end": "'",
+                    "patterns": [
+                        {
+                            "name": "constant.character.escape.asm.x86",
+                            "match": "\\\\."
+                        }
+                    ]
+                }
+            ]
+        },
+        "numbers": {
+            "patterns": [
+                {
+                    "name": "constant.numeric.hex.asm.x86",
+                    "match": "\\b0[xX][0-9a-fA-F_]+\\b"
+                },
+                {
+                    "name": "constant.numeric.hex.asm.x86",
+                    "match": "\\b[0-9a-fA-F]+[hH]\\b"
+                },
+                {
+                    "name": "constant.numeric.binary.asm.x86",
+                    "match": "\\b0[bB][01_]+\\b"
+                },
+                {
+                    "name": "constant.numeric.binary.asm.x86",
+                    "match": "\\b[01]+[bB]\\b"
+                },
+                {
+                    "name": "constant.numeric.octal.asm.x86",
+                    "match": "\\b0[oO][0-7_]+\\b"
+                },
+                {
+                    "name": "constant.numeric.octal.asm.x86",
+                    "match": "\\b[0-7]+[oOqQ]\\b"
+                },
+                {
+                    "name": "constant.numeric.decimal.asm.x86",
+                    "match": "\\b[0-9][0-9_]*\\b"
+                }
+            ]
+        },
+        "labels": {
+            "patterns": [
+                {
+                    "name": "entity.name.function.label.asm.x86",
+                    "match": "^\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s*:"
+                },
+                {
+                    "name": "entity.name.function.local-label.asm.x86",
+                    "match": "^\\s*(\\.L[a-zA-Z0-9_]+|\\.[a-zA-Z_][a-zA-Z0-9_]*)\\s*:"
+                },
+                {
+                    "name": "entity.name.function.local-label.asm.x86",
+                    "match": "^\\s*(@@|@[fFbB])\\s*:"
+                }
+            ]
+        },
+        "registers": {
+            "patterns": [
+                {
+                    "name": "variable.language.register.general.64bit.asm.x86",
+                    "match": "\\b(?i)(r(?:ax|bx|cx|dx|si|di|sp|bp)|r(?:8|9|1[0-5]))\\b"
+                },
+                {
+                    "name": "variable.language.register.general.32bit.asm.x86",
+                    "match": "\\b(?i)(e(?:ax|bx|cx|dx|si|di|sp|bp)|r(?:8|9|1[0-5])d)\\b"
+                },
+                {
+                    "name": "variable.language.register.general.16bit.asm.x86",
+                    "match": "\\b(?i)((?:ax|bx|cx|dx|si|di|sp|bp)|r(?:8|9|1[0-5])w)\\b"
+                },
+                {
+                    "name": "variable.language.register.general.8bit.asm.x86",
+                    "match": "\\b(?i)((?:al|ah|bl|bh|cl|ch|dl|dh|sil|dil|spl|bpl)|r(?:8|9|1[0-5])b)\\b"
+                },
+                {
+                    "name": "variable.language.register.segment.asm.x86",
+                    "match": "\\b(?i)(cs|ds|es|fs|gs|ss)\\b"
+                },
+                {
+                    "name": "variable.language.register.flags.asm.x86",
+                    "match": "\\b(?i)(r?flags|eflags)\\b"
+                },
+                {
+                    "name": "variable.language.register.instruction-pointer.asm.x86",
+                    "match": "\\b(?i)(r?ip|eip)\\b"
+                },
+                {
+                    "name": "variable.language.register.simd.asm.x86",
+                    "match": "\\b(?i)(xmm(?:1[0-5]|[0-9])|ymm(?:1[0-5]|[0-9])|zmm(?:3[01]|[12]?[0-9]))\\b"
+                },
+                {
+                    "name": "variable.language.register.mmx.asm.x86",
+                    "match": "\\b(?i)(mm[0-7])\\b"
+                },
+                {
+                    "name": "variable.language.register.control.asm.x86",
+                    "match": "\\b(?i)(cr[0-48])\\b"
+                },
+                {
+                    "name": "variable.language.register.debug.asm.x86",
+                    "match": "\\b(?i)(dr[0-7])\\b"
+                },
+                {
+                    "name": "variable.language.register.fpu.asm.x86",
+                    "match": "\\b(?i)(st\\(?[0-7]\\)?)\\b"
+                },
+                {
+                    "name": "variable.language.register.mask.asm.x86",
+                    "match": "\\b(?i)(k[0-7])\\b"
+                }
+            ]
+        },
+        "instructions": {
+            "patterns": [
+                {
+                    "name": "keyword.control.flow.asm.x86",
+                    "match": "\\b(?i)(j(?:mp|e|ne|z|nz|a|ae|b|be|g|ge|l|le|s|ns|o|no|p|np|c|nc|cxz|ecxz|rcxz)|loop(?:e|ne|z|nz)?|call|ret|retn|retf|iret|iretd|iretq|syscall|sysenter|sysexit|sysret|int|into)\\b"
+                },
+                {
+                    "name": "keyword.operator.mov.asm.x86",
+                    "match": "\\b(?i)(mov(?:sx|sxd|zx|abs|be|nt[idq]?|s[bwdq]|dir)?|lea|xchg|bswap|cmpxchg(?:8b|16b)?|xadd)\\b"
+                },
+                {
+                    "name": "keyword.operator.arithmetic.asm.x86",
+                    "match": "\\b(?i)(add|adc|sub|sbb|mul|imul|div|idiv|inc|dec|neg|cmp|test)\\b"
+                },
+                {
+                    "name": "keyword.operator.logical.asm.x86",
+                    "match": "\\b(?i)(and|or|xor|not|shl|shr|sal|sar|rol|ror|rcl|rcr|shld|shrd)\\b"
+                },
+                {
+                    "name": "keyword.operator.stack.asm.x86",
+                    "match": "\\b(?i)(push(?:a|ad|f|fd|fq)?|pop(?:a|ad|f|fd|fq)?)\\b"
+                },
+                {
+                    "name": "keyword.operator.string.asm.x86",
+                    "match": "\\b(?i)(movs[bwdq]?|cmps[bwdq]?|scas[bwdq]?|lods[bwdq]?|stos[bwdq]?|rep(?:e|z|ne|nz)?)\\b"
+                },
+                {
+                    "name": "keyword.operator.set.asm.x86",
+                    "match": "\\b(?i)(set(?:e|ne|z|nz|a|ae|b|be|g|ge|l|le|s|ns|o|no|p|np|c|nc))\\b"
+                },
+                {
+                    "name": "keyword.operator.cmov.asm.x86",
+                    "match": "\\b(?i)(cmov(?:e|ne|z|nz|a|ae|b|be|g|ge|l|le|s|ns|o|no|p|np|c|nc))\\b"
+                },
+                {
+                    "name": "keyword.operator.bit.asm.x86",
+                    "match": "\\b(?i)(bt|bts|btr|btc|bsf|bsr|popcnt|lzcnt|tzcnt|andn|bextr|blsi|blsmsk|blsr|bzhi|pdep|pext)\\b"
+                },
+                {
+                    "name": "keyword.operator.simd.asm.x86",
+                    "match": "\\b(?i)(v?(?:movaps|movups|movapd|movupd|movdqa|movdqu|movss|movsd|movhlps|movlhps|movhps|movlps|movhpd|movlpd|movmskps|movmskpd|movntps|movntpd|movntdq|movntdqa|pmovmskb|pmovsxbw|pmovzxbw|pmovsxbd|pmovzxbd|pmovsxbq|pmovzxbq|pmovsxwd|pmovzxwd|pmovsxwq|pmovzxwq|pmovsxdq|pmovzxdq))\\b"
+                },
+                {
+                    "name": "keyword.operator.simd.arithmetic.asm.x86",
+                    "match": "\\b(?i)(v?(?:addps|addpd|addss|addsd|subps|subpd|subss|subsd|mulps|mulpd|mulss|mulsd|divps|divpd|divss|divsd|sqrtps|sqrtpd|sqrtss|sqrtsd|maxps|maxpd|maxss|maxsd|minps|minpd|minss|minsd|paddb|paddw|paddd|paddq|psubb|psubw|psubd|psubq|pmullw|pmulld|pmulhw|pmaddwd))\\b"
+                },
+                {
+                    "name": "keyword.operator.simd.comparison.asm.x86",
+                    "match": "\\b(?i)(v?(?:cmpps|cmppd|cmpss|cmpsd|comiss|comisd|ucomiss|ucomisd|pcmpeqb|pcmpeqw|pcmpeqd|pcmpeqq|pcmpgtb|pcmpgtw|pcmpgtd|pcmpgtq))\\b"
+                },
+                {
+                    "name": "keyword.operator.simd.logical.asm.x86",
+                    "match": "\\b(?i)(v?(?:andps|andpd|orps|orpd|xorps|xorpd|andnps|andnpd|pand|pandn|por|pxor))\\b"
+                },
+                {
+                    "name": "keyword.operator.simd.shuffle.asm.x86",
+                    "match": "\\b(?i)(v?(?:shufps|shufpd|pshufd|pshufb|pshufhw|pshuflw|palignr|pblendw|blendps|blendpd|blendvps|blendvpd|pblendvb|insertps|extractps|pinsrb|pinsrw|pinsrd|pinsrq|pextrb|pextrw|pextrd|pextrq|punpckhbw|punpckhdq|punpckhqdq|punpckhwd|punpcklbw|punpckldq|punpcklqdq|punpcklwd|unpckhps|unpckhpd|unpcklps|unpcklpd))\\b"
+                },
+                {
+                    "name": "keyword.operator.avx.asm.x86",
+                    "match": "\\b(?i)(vbroadcast(?:ss|sd|f128|i128)|vextract(?:f128|i128)|vinsert(?:f128|i128)|vmaskmovps|vmaskmovpd|vpmaskmovd|vpmaskmovq|vperm2f128|vperm2i128|vpermd|vpermps|vpermq|vpermpd|vpermilps|vpermilpd|vgather(?:dps|dpd|qps|qpd)|vpgather(?:dd|dq|qd|qq)|vfmadd(?:132|213|231)(?:ps|pd|ss|sd)|vfmsub(?:132|213|231)(?:ps|pd|ss|sd)|vfnmadd(?:132|213|231)(?:ps|pd|ss|sd)|vfnmsub(?:132|213|231)(?:ps|pd|ss|sd)|vfmaddsub(?:132|213|231)(?:ps|pd)|vfmsubadd(?:132|213|231)(?:ps|pd))\\b"
+                },
+                {
+                    "name": "keyword.operator.crypto.asm.x86",
+                    "match": "\\b(?i)(aes(?:enc|enclast|dec|declast|imc|keygenassist)|pclmulqdq|sha(?:1rnds4|1nexte|1msg1|1msg2|256rnds2|256msg1|256msg2))\\b"
+                },
+                {
+                    "name": "keyword.operator.misc.asm.x86",
+                    "match": "\\b(?i)(nop|hlt|wait|fwait|lock|pause|cpuid|rdtsc|rdtscp|rdpmc|xgetbv|xsetbv|clflush|clflushopt|clwb|lfence|sfence|mfence|prefetch(?:nta|t0|t1|t2|w)|cld|std|cli|sti|clc|stc|cmc|lahf|sahf|xlat|xlatb|cbw|cwde|cdqe|cwd|cdq|cqo|enter|leave|bound|arpl|lar|lsl|lgdt|lidt|lldt|ltr|sgdt|sidt|sldt|str|verr|verw|invd|wbinvd|invlpg|invlpga|invlpgb|tlbsync)\\b"
+                },
+                {
+                    "name": "keyword.operator.fpu.asm.x86",
+                    "match": "\\b(?i)(f(?:add|sub|mul|div|com|ucom|ld|st|xch|abs|chs|sqrt|sin|cos|sincos|ptan|patan|yl2x|yl2xp1|2xm1|scale|xtract|prem|prem1|rndint|init|clex|stcw|ldcw|stenv|ldenv|save|rstor|stsw|free|decstp|incstp|nop|wait|iadd|isub|imul|idiv|icom|icomp|ild|ist|istp|bld|bstp)p?)\\b"
+                }
+            ]
+        },
+        "directives": {
+            "patterns": [
+                {
+                    "name": "keyword.control.directive.section.asm.x86",
+                    "match": "\\b(?i)(section|segment)\\b"
+                },
+                {
+                    "name": "keyword.control.directive.data.asm.x86",
+                    "match": "\\b(?i)(d[bwdqt]|res[bwdqt]|times|\\.byte|\\.word|\\.long|\\.quad|\\.ascii|\\.asciz|\\.string|\\.fill|\\.space|\\.zero|\\.float|\\.double|\\.align|\\.balign|\\.p2align)\\b"
+                },
+                {
+                    "name": "keyword.control.directive.section.gas.asm.x86",
+                    "match": "^\\s*(\\.(?:text|data|bss|rodata|section))\\b"
+                },
+                {
+                    "name": "keyword.control.directive.symbol.asm.x86",
+                    "match": "\\b(?i)(global|globl|extern|extrn|public|import|export|common|comm|lcomm|\\.global|\\.globl|\\.extern|\\.weak|\\.local|\\.type|\\.size|\\.hidden|\\.protected)\\b"
+                },
+                {
+                    "name": "keyword.control.directive.macro.asm.x86",
+                    "match": "\\b(?i)(%(?:define|undef|xdefine|assign|macro|endmacro|imacro|rmacro|exitmacro|if|ifdef|ifndef|elif|elifdef|elifndef|else|endif|rep|endrep|include|error|warning|fatal|strcat|strlen|substr|arg|local|rotate|clear|push|pop|repl|ifidn|ifnidn|ifidni|ifnidni|elif|idn|elifidni|elifnidn|elifnidni)|\\.(?:macro|endm|rept|endr|if|ifdef|ifndef|else|elseif|endif|include|incbin|irp|irpc|err|error|warning|print|equ|equiv|set|org|skip|struct|ends|union|endu))\\b"
+                },
+                {
+                    "name": "keyword.control.directive.misc.asm.x86",
+                    "match": "\\b(?i)(equ|=|bits|use16|use32|use64|default|absolute|cpu|fpu|org|map|at|\\.org|\\.code16|\\.code32|\\.code64|\\.intel_syntax|\\.att_syntax|\\.noprefix)\\b"
+                },
+                {
+                    "name": "storage.type.size.asm.x86",
+                    "match": "\\b(?i)(byte|word|dword|qword|tword|oword|xmmword|ymmword|zmmword|ptr|near|far|short)\\b"
+                }
+            ]
+        },
+        "operators": {
+            "patterns": [
+                {
+                    "name": "keyword.operator.asm.x86",
+                    "match": "[\\+\\-\\*\\/\\|\\&\\^\\~\\!\\<\\>\\%]"
+                },
+                {
+                    "name": "punctuation.separator.asm.x86",
+                    "match": "[,:\\[\\]\\(\\)]"
+                }
+            ]
+        }
+    }
+}

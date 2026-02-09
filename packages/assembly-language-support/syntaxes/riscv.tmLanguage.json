@@ -1,0 +1,219 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "RISC-V Assembly",
+    "scopeName": "source.asm.riscv",
+    "fileTypes": ["riscv", "rv", "rv32", "rv64"],
+    "patterns": [
+        {
+            "include": "#comments"
+        },
+        {
+            "include": "#strings"
+        },
+        {
+            "include": "#numbers"
+        },
+        {
+            "include": "#labels"
+        },
+        {
+            "include": "#registers"
+        },
+        {
+            "include": "#instructions"
+        },
+        {
+            "include": "#directives"
+        }
+    ],
+    "repository": {
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.line.hash.asm.riscv",
+                    "match": "#.*$"
+                },
+                {
+                    "name": "comment.line.semicolon.asm.riscv",
+                    "match": ";.*$"
+                },
+                {
+                    "name": "comment.block.asm.riscv",
+                    "begin": "/\\*",
+                    "end": "\\*/"
+                }
+            ]
+        },
+        "strings": {
+            "patterns": [
+                {
+                    "name": "string.quoted.double.asm.riscv",
+                    "begin": "\"",
+                    "end": "\"",
+                    "patterns": [
+                        {
+                            "name": "constant.character.escape.asm.riscv",
+                            "match": "\\\\."
+                        }
+                    ]
+                }
+            ]
+        },
+        "numbers": {
+            "patterns": [
+                {
+                    "name": "constant.numeric.hex.asm.riscv",
+                    "match": "0[xX][0-9a-fA-F_]+"
+                },
+                {
+                    "name": "constant.numeric.binary.asm.riscv",
+                    "match": "0[bB][01_]+"
+                },
+                {
+                    "name": "constant.numeric.decimal.asm.riscv",
+                    "match": "-?[0-9][0-9_]*"
+                }
+            ]
+        },
+        "labels": {
+            "patterns": [
+                {
+                    "name": "entity.name.function.label.asm.riscv",
+                    "match": "^\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s*:"
+                },
+                {
+                    "name": "entity.name.function.local-label.asm.riscv",
+                    "match": "^\\s*(\\.L[a-zA-Z0-9_]+)\\s*:"
+                }
+            ]
+        },
+        "registers": {
+            "patterns": [
+                {
+                    "name": "variable.language.register.zero.asm.riscv",
+                    "match": "\\b(x0|zero)\\b"
+                },
+                {
+                    "name": "variable.language.register.return.asm.riscv",
+                    "match": "\\b(x1|ra)\\b"
+                },
+                {
+                    "name": "variable.language.register.stack.asm.riscv",
+                    "match": "\\b(x2|sp)\\b"
+                },
+                {
+                    "name": "variable.language.register.global.asm.riscv",
+                    "match": "\\b(x3|gp)\\b"
+                },
+                {
+                    "name": "variable.language.register.thread.asm.riscv",
+                    "match": "\\b(x4|tp)\\b"
+                },
+                {
+                    "name": "variable.language.register.temp.asm.riscv",
+                    "match": "\\b(x(?:5|6|7|28|29|30|31)|t[0-6])\\b"
+                },
+                {
+                    "name": "variable.language.register.frame.asm.riscv",
+                    "match": "\\b(x8|s0|fp)\\b"
+                },
+                {
+                    "name": "variable.language.register.saved.asm.riscv",
+                    "match": "\\b(x(?:9|18|19|20|21|22|23|24|25|26|27)|s(?:1|2|3|4|5|6|7|8|9|10|11))\\b"
+                },
+                {
+                    "name": "variable.language.register.arg.asm.riscv",
+                    "match": "\\b(x(?:10|11|12|13|14|15|16|17)|a[0-7])\\b"
+                },
+                {
+                    "name": "variable.language.register.float.asm.riscv",
+                    "match": "\\b(f(?:[0-9]|[12][0-9]|3[01])|f(?:t(?:[0-9]|1[01])|s(?:[0-9]|1[01])|a[0-7]))\\b"
+                },
+                {
+                    "name": "variable.language.register.vector.asm.riscv",
+                    "match": "\\b(v(?:[0-9]|[12][0-9]|3[01]))\\b"
+                },
+                {
+                    "name": "variable.language.register.csr.asm.riscv",
+                    "match": "\\b(mstatus|misa|medeleg|mideleg|mie|mtvec|mcounteren|mscratch|mepc|mcause|mtval|mip|mtinst|mtval2|menvcfg|mseccfg|pmpcfg[0-9]+|pmpaddr[0-9]+|mcycle|minstret|mhpmcounter[0-9]+|mcycleh|minstreth|mhpmcounterh[0-9]+|mcountinhibit|mhpmevent[0-9]+|tselect|tdata[123]|dcsr|dpc|dscratch[01]|sstatus|sie|stvec|scounteren|senvcfg|sscratch|sepc|scause|stval|sip|satp|scontext|hstatus|hedeleg|hideleg|hie|hcounteren|hgeie|htval|hip|hvip|htinst|hgeip|henvcfg|hgatp|hcontext|htimedelta|vsstatus|vsie|vstvec|vsscratch|vsepc|vscause|vstval|vsip|vsatp|cycle|time|instret|hpmcounter[0-9]+|cycleh|timeh|instreth|hpmcounterh[0-9]+|fflags|frm|fcsr|vstart|vxsat|vxrm|vcsr|vl|vtype|vlenb)\\b"
+                }
+            ]
+        },
+        "instructions": {
+            "patterns": [
+                {
+                    "name": "keyword.control.flow.asm.riscv",
+                    "match": "\\b(jal|jalr|beq|bne|blt|bge|bltu|bgeu|j|jr|ret|call|tail|ecall|ebreak|mret|sret|uret|wfi|sfence\\.vma|hfence\\.vvma|hfence\\.gvma)\\b"
+                },
+                {
+                    "name": "keyword.operator.load.asm.riscv",
+                    "match": "\\b(lb|lh|lw|ld|lbu|lhu|lwu|lq|flw|fld|flq|lr\\.w|lr\\.d|la|lla|lga)\\b"
+                },
+                {
+                    "name": "keyword.operator.store.asm.riscv",
+                    "match": "\\b(sb|sh|sw|sd|sq|fsw|fsd|fsq|sc\\.w|sc\\.d)\\b"
+                },
+                {
+                    "name": "keyword.operator.arithmetic.asm.riscv",
+                    "match": "\\b(add|addi|addw|addiw|sub|subw|mul|mulh|mulhsu|mulhu|mulw|div|divu|rem|remu|divw|divuw|remw|remuw|neg|negw|slt|slti|sltu|sltiu|seqz|snez|sltz|sgtz)\\b"
+                },
+                {
+                    "name": "keyword.operator.logical.asm.riscv",
+                    "match": "\\b(and|andi|or|ori|xor|xori|not|sll|slli|sllw|slliw|srl|srli|srlw|srliw|sra|srai|sraw|sraiw)\\b"
+                },
+                {
+                    "name": "keyword.operator.immediate.asm.riscv",
+                    "match": "\\b(lui|auipc|li|mv|nop)\\b"
+                },
+                {
+                    "name": "keyword.operator.atomic.asm.riscv",
+                    "match": "\\b(amoadd\\.w|amoxor\\.w|amoor\\.w|amoand\\.w|amomin\\.w|amomax\\.w|amominu\\.w|amomaxu\\.w|amoswap\\.w|amoadd\\.d|amoxor\\.d|amoor\\.d|amoand\\.d|amomin\\.d|amomax\\.d|amominu\\.d|amomaxu\\.d|amoswap\\.d|fence|fence\\.i|fence\\.tso)\\b"
+                },
+                {
+                    "name": "keyword.operator.csr.asm.riscv",
+                    "match": "\\b(csrrw|csrrs|csrrc|csrrwi|csrrsi|csrrci|csrr|csrw|csrs|csrc|csrwi|csrsi|csrci|rdcycle|rdcycleh|rdtime|rdtimeh|rdinstret|rdinstreth)\\b"
+                },
+                {
+                    "name": "keyword.operator.float.asm.riscv",
+                    "match": "\\b(fadd\\.[sdq]|fsub\\.[sdq]|fmul\\.[sdq]|fdiv\\.[sdq]|fsqrt\\.[sdq]|fmin\\.[sdq]|fmax\\.[sdq]|fmadd\\.[sdq]|fmsub\\.[sdq]|fnmadd\\.[sdq]|fnmsub\\.[sdq]|fsgnj\\.[sdq]|fsgnjn\\.[sdq]|fsgnjx\\.[sdq]|fcvt\\.[sdq]\\.[sdqwl]|fcvt\\.[sdq]\\.wu|fcvt\\.[sdq]\\.lu|fcvt\\.w\\.[sdq]|fcvt\\.wu\\.[sdq]|fcvt\\.l\\.[sdq]|fcvt\\.lu\\.[sdq]|fmv\\.[xw]\\.[sdq]|fmv\\.[sdq]\\.[xw]|feq\\.[sdq]|flt\\.[sdq]|fle\\.[sdq]|fclass\\.[sdq]|fabs\\.[sdq]|fneg\\.[sdq])\\b"
+                },
+                {
+                    "name": "keyword.operator.vector.asm.riscv",
+                    "match": "\\b(vsetvli|vsetivli|vsetvl|vle(?:8|16|32|64)\\.v|vse(?:8|16|32|64)\\.v|vlse(?:8|16|32|64)\\.v|vsse(?:8|16|32|64)\\.v|vluxei(?:8|16|32|64)\\.v|vsuxei(?:8|16|32|64)\\.v|vloxei(?:8|16|32|64)\\.v|vsoxei(?:8|16|32|64)\\.v|vl(?:1|2|4|8)re(?:8|16|32|64)\\.v|vs(?:1|2|4|8)r\\.v|vadd\\.(?:vv|vx|vi)|vsub\\.(?:vv|vx)|vrsub\\.(?:vx|vi)|vand\\.(?:vv|vx|vi)|vor\\.(?:vv|vx|vi)|vxor\\.(?:vv|vx|vi)|vmul\\.(?:vv|vx)|vmulh\\.(?:vv|vx)|vmulhu\\.(?:vv|vx)|vmulhsu\\.(?:vv|vx)|vdiv\\.(?:vv|vx)|vdivu\\.(?:vv|vx)|vrem\\.(?:vv|vx)|vremu\\.(?:vv|vx)|vsll\\.(?:vv|vx|vi)|vsrl\\.(?:vv|vx|vi)|vsra\\.(?:vv|vx|vi)|vmseq\\.(?:vv|vx|vi)|vmsne\\.(?:vv|vx|vi)|vmsltu?\\.(?:vv|vx)|vmsle[u]?\\.(?:vv|vx|vi)|vmsgtu?\\.(?:vx|vi)|vmin[u]?\\.(?:vv|vx)|vmax[u]?\\.(?:vv|vx)|vmv\\.(?:v\\.v|v\\.x|x\\.s|v\\.i|s\\.x)|vfadd\\.(?:vv|vf)|vfsub\\.(?:vv|vf)|vfmul\\.(?:vv|vf)|vfdiv\\.(?:vv|vf)|vfsqrt\\.v|vfmin\\.(?:vv|vf)|vfmax\\.(?:vv|vf)|vmand\\.mm|vmnand\\.mm|vmandnot\\.mm|vmxor\\.mm|vmor\\.mm|vmnor\\.mm|vmornot\\.mm|vmxnor\\.mm|vredsum\\.vs|vredmaxu?\\.vs|vredminu?\\.vs|vredand\\.vs|vredor\\.vs|vredxor\\.vs|vslideup\\.(?:vx|vi)|vslidedown\\.(?:vx|vi)|vslide1up\\.vx|vslide1down\\.vx|vrgather\\.(?:vv|vx|vi)|vcompress\\.vm)\\b"
+                },
+                {
+                    "name": "keyword.operator.compressed.asm.riscv",
+                    "match": "\\b(c\\.nop|c\\.addi|c\\.jal|c\\.li|c\\.addi16sp|c\\.lui|c\\.srli|c\\.srai|c\\.andi|c\\.sub|c\\.xor|c\\.or|c\\.and|c\\.j|c\\.beqz|c\\.bnez|c\\.slli|c\\.lwsp|c\\.ldsp|c\\.jr|c\\.mv|c\\.ebreak|c\\.jalr|c\\.add|c\\.swsp|c\\.sdsp|c\\.lw|c\\.ld|c\\.sw|c\\.sd|c\\.addiw|c\\.subw|c\\.addw|c\\.fldsp|c\\.fsdsp|c\\.fld|c\\.fsd|c\\.flwsp|c\\.fswsp|c\\.flw|c\\.fsw)\\b"
+                },
+                {
+                    "name": "keyword.operator.bitmanip.asm.riscv",
+                    "match": "\\b(andn|orn|xnor|clz|ctz|cpop|clzw|ctzw|cpopw|max|maxu|min|minu|sext\\.b|sext\\.h|zext\\.h|zext\\.w|rol|rolw|ror|rori|roriw|rorw|orc\\.b|rev8|bclr|bclri|bext|bexti|binv|binvi|bset|bseti|clmul|clmulh|clmulr|sh1add|sh2add|sh3add|sh1add\\.uw|sh2add\\.uw|sh3add\\.uw|add\\.uw|slli\\.uw)\\b"
+                },
+                {
+                    "name": "keyword.operator.crypto.asm.riscv",
+                    "match": "\\b(aes32dsi|aes32dsmi|aes32esi|aes32esmi|aes64ds|aes64dsm|aes64es|aes64esm|aes64ks1i|aes64ks2|aes64im|sha256sig0|sha256sig1|sha256sum0|sha256sum1|sha512sig0|sha512sig1|sha512sum0|sha512sum1|sha512sig0h|sha512sig0l|sha512sig1h|sha512sig1l|sha512sum0r|sha512sum1r|sm3p0|sm3p1|sm4ed|sm4ks)\\b"
+                }
+            ]
+        },
+        "directives": {
+            "patterns": [
+                {
+                    "name": "keyword.control.directive.section.asm.riscv",
+                    "match": "^\\s*\\.(?:text|data|bss|rodata|section)\\b"
+                },
+                {
+                    "name": "keyword.control.directive.data.asm.riscv",
+                    "match": "\\.(?:byte|half|word|dword|quad|ascii|asciz|string|fill|space|zero|float|double|align|balign|p2align|skip|2byte|4byte|8byte)\\b"
+                },
+                {
+                    "name": "keyword.control.directive.symbol.asm.riscv",
+                    "match": "\\.(?:global|globl|extern|weak|local|type|size|hidden|protected|func|endfunc|object|comm|common|lcomm)\\b"
+                },
+                {
+                    "name": "keyword.control.directive.macro.asm.riscv",
+                    "match": "\\.(?:macro|endm|rept|endr|irp|irpc|if|ifdef|ifndef|else|elseif|endif|include|incbin|equ|equiv|set|err|error|warning|print|option|attribute)\\b"
+                }
+            ]
+        }
+    }
+}

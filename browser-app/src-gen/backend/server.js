@@ -78,6 +78,11 @@ module.exports = async (port, host, argv) => {
         await load(require('@theia/test/lib/node/test-backend-module'));
         await load(require('@theia/debug/lib/node/debug-backend-module'));
         await load(require('@theia/scm/lib/node/scm-backend-module'));
+        await load(require('@theia/ai-core/lib/node/ai-core-backend-module'));
+        await load(require('@theia/ai-chat/lib/node/ai-chat-backend-module'));
+        await load(require('@theia/editor-preview/lib/node/editor-preview-backend-module'));
+        await load(require('@theia/ai-google/lib/node/google-backend-module'));
+        await load(require('@asmforge/toolchain/lib/node/toolchain-backend-module'));
         return await start(port, host, argv);
     } catch (error) {
         if (typeof error !== 'number') {

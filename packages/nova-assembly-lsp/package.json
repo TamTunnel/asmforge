@@ -12,9 +12,9 @@
         "src"
     ],
     "dependencies": {
-        "@theia/core": "1.67.0",
-        "@theia/editor": "1.67.0",
-        "@theia/monaco": "1.67.0"
+        "@theia/core": "1.68.0",
+        "@theia/editor": "1.68.0",
+        "@theia/monaco": "1.68.0"
     },
     "devDependencies": {
         "@types/node": "^20.10.0",
@@ -26,7 +26,7 @@
         "build": "tsc",
         "watch": "tsc -w"
     },
-    "theiaExtensions": [
+    "_theiaExtensions_disabled": [
         {
             "frontend": "lib/browser/nova-assembly-lsp-frontend-module",
             "backend": "lib/node/nova-assembly-lsp-backend-module"

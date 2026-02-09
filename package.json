@@ -47,5 +47,21 @@
     "theiaPluginsDir": "plugins",
     "theiaPlugins": {
         "vscode-builtin-extensions-pack": "https://open-vsx.org/api/AntGrpOPEN/vscode-builtin-extensions-pack/1.0.0/file/AntGrpOPEN.vscode-builtin-extensions-pack-1.0.0.vsix"
+    },
+    "overrides": {
+        "@theia/core": "1.68.0",
+        "@theia/editor": "1.68.0",
+        "@theia/monaco": "1.68.0",
+        "@theia/filesystem": "1.68.0",
+        "@theia/task": "1.68.0",
+        "@theia/debug": "1.68.0",
+        "@theia/process": "1.68.0",
+        "@theia/terminal": "1.68.0",
+        "@theia/workspace": "1.68.0",
+        "@theia/markers": "1.68.0",
+        "@theia/output": "1.68.0",
+        "@theia/preferences": "1.68.0",
+        "@theia/variable-resolver": "1.68.0",
+        "inversify": "6.2.2"
     }
 }

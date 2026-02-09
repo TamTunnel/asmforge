@@ -1,0 +1,180 @@
+# Sample RISC-V assembly program (RV64)
+# Demonstrates syntax highlighting for AsmForge IDE
+
+.data
+    message:    .asciz "Hello from AsmForge IDE!\n"
+    msg_len = . - message
+    
+    # Various data types
+    byte_val:   .byte 0x42
+    half_val:   .half 0x1234
+    word_val:   .word 0xDEADBEEF
+    dword_val:  .dword 0x123456789ABCDEF0
+
+.bss
+    .align 4
+    buffer:     .space 256
+
+.text
+.global _start
+.type _start, @function
+
+_start:
+    # Function prologue
+    addi sp, sp, -16
+    sd ra, 8(sp)
+    sd fp, 0(sp)
+    mv fp, sp
+
+    # Write system call
+    li a7, 64               # sys_write
+    li a0, 1                # stdout
+    la a1, message          # message pointer
+    li a2, msg_len          # length
+    ecall
+
+    # Demonstrate various instruction types
+    
+    # Immediate loads
+    li t0, 100
+    lui t1, 0x12345
+    auipc t2, 0x1000
+    
+    # Arithmetic operations
+    add t0, t0, t1
+    addi t0, t0, 50
+    sub t0, t0, t2
+    mul t3, t0, t1
+    div t4, t0, t1
+    rem t5, t0, t1
+    
+    # Logical operations
+    and t0, t0, t1
+    andi t0, t0, 0xFF
+    or t0, t0, t1
+    ori t0, t0, 0x80
+    xor t0, t0, t0
+    
+    # Shift operations
+    sll t0, t0, t1
+    slli t0, t0, 4
+    srl t0, t0, t1
+    srli t0, t0, 2
+    sra t0, t0, t1
+    
+    # Comparison
+    slt t0, t1, t2          # Set less than
+    sltu t0, t1, t2         # Set less than unsigned
+    slti t0, t1, 100
+    
+    # Branches and jumps
+    beq t0, zero, .Lis_zero
+    bne t0, zero, .Lnot_zero
+    blt t0, t1, .Lless
+    bge t0, t1, .Lgreater_eq
+    
+.Lis_zero:
+    nop
+    j .Lcontinue
+    
+.Lnot_zero:
+    nop
+    j .Lcontinue
+    
+.Lless:
+    nop
+    j .Lcontinue
+    
+.Lgreater_eq:
+    nop
+    
+.Lcontinue:
+    # Loop example
+    li t0, 10
+.Lloop_start:
+    # Loop body
+    addi t0, t0, -1
+    bnez t0, .Lloop_start
+
+    # Load/Store operations
+    lw t0, 0(t1)            # Load word
+    lh t0, 0(t1)            # Load halfword
+    lb t0, 0(t1)            # Load byte
+    ld t0, 0(t1)            # Load doubleword (RV64)
+    
+    sw t0, 0(t1)            # Store word
+    sh t0, 0(t1)            # Store halfword
+    sb t0, 0(t1)            # Store byte
+    sd t0, 0(t1)            # Store doubleword (RV64)
+    
+    # Unsigned loads
+    lbu t0, 0(t1)
+    lhu t0, 0(t1)
+    lwu t0, 0(t1)           # RV64
+    
+    # Pseudo-instructions
+    mv t0, t1               # Copy register
+    not t0, t1              # Bitwise NOT
+    neg t0, t1              # Negate
+    seqz t0, t1             # Set if equal to zero
+    snez t0, t1             # Set if not equal to zero
+    
+    # Floating point operations (F/D extension)
+    fld ft0, 0(t0)          # Load double
+    flw ft1, 0(t0)          # Load float
+    fadd.d ft2, ft0, ft1
+    fmul.d ft2, ft2, ft0
+    fsub.d ft2, ft2, ft1
+    fdiv.d ft2, ft2, ft0
+    fsqrt.d ft3, ft2
+    fsd ft2, 0(t0)
+    
+    # Compare and convert
+    feq.d t0, ft0, ft1
+    flt.d t0, ft0, ft1
+    fcvt.w.d t0, ft0
+    fcvt.d.w ft0, t0
+    
+    # CSR operations
+    csrr t0, cycle          # Read cycle counter
+    csrr t1, instret        # Read instruction count
+    csrw sscratch, t0       # Write to CSR
+    csrrs t0, mstatus, t1   # Read and set bits
+    csrrc t0, mstatus, t1   # Read and clear bits
+
+    # Atomic operations (A extension)
+    lr.w t0, (t1)           # Load reserved
+    sc.w t2, t0, (t1)       # Store conditional
+    amoadd.w t0, t1, (t2)   # Atomic add
+    amoswap.w t0, t1, (t2)  # Atomic swap
+    
+    # Memory fence
+    fence
+    fence.i
+
+    # Function epilogue
+    ld ra, 8(sp)
+    ld fp, 0(sp)
+    addi sp, sp, 16
+
+    # Exit system call
+    li a7, 93               # sys_exit
+    li a0, 0                # exit code 0
+    ecall
+
+# Subroutine example
+.type my_function, @function
+my_function:
+    addi sp, sp, -16
+    sd ra, 8(sp)
+    sd fp, 0(sp)
+    mv fp, sp
+    
+    # Function body
+    add a0, a0, a1
+    
+    ld ra, 8(sp)
+    ld fp, 0(sp)
+    addi sp, sp, 16
+    ret
+.size my_function, . - my_function

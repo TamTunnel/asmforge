@@ -29,20 +29,26 @@ FrontendApplicationConfigProvider.set({
         'editor.fontFamily':
             "'JetBrains Mono', 'Fira Code', 'Source Code Pro', 'Consolas', monospace",
         'editor.fontLigatures': true,
-        'editor.tabSize': 4,
+        'editor.tabSize': 8,
         'editor.insertSpaces': false,
-        'editor.minimap.enabled': true,
-        'editor.minimap.renderCharacters': false,
-        'editor.renderWhitespace': 'selection',
+        'editor.minimap.enabled': false,
+        'editor.renderWhitespace': 'all',
         'editor.cursorStyle': 'block',
         'editor.cursorBlinking': 'smooth',
         'editor.lineNumbers': 'on',
-        'editor.rulers': [80, 120],
+        'editor.rulers': [80],
         'editor.wordWrap': 'off',
+        'editor.showFoldingControls': 'always',
+        'editor.folding': true,
+        'editor.glyphMargin': true,
+        'editor.guides.indentation': true,
+        'editor.renderLineHighlight': 'all',
+        'editor.scrollBeyondLastLine': false,
         'terminal.integrated.fontFamily': "'JetBrains Mono', 'Fira Code', monospace",
         'terminal.integrated.fontSize': 13,
         'workbench.iconTheme': 'theia-file-icons',
         'window.menuBarVisibility': 'visible',
+        'ai-features.AiEnable': true,
         'workbench.colorCustomizations': {
             'editor.background': '#0d1117',
             'editor.foreground': '#c9d1d9',
@@ -170,6 +176,29 @@ module.exports = (async () => {
             require('@theia/callhierarchy/lib/browser/callhierarchy-frontend-module')
         );
         await load(container, require('@theia/scm/lib/browser/scm-frontend-module'));
+        await load(container, require('@theia/ai-core/lib/browser/ai-core-frontend-module'));
+        await load(container, require('@theia/ai-chat/lib/browser/ai-chat-frontend-module'));
+        await load(
+            container,
+            require('@theia/editor-preview/lib/browser/editor-preview-frontend-module')
+        );
+        await load(container, require('@theia/ai-chat-ui/lib/browser/ai-chat-ui-frontend-module'));
+        await load(container, require('@theia/ai-google/lib/browser/google-frontend-module'));
+        await load(container, require('@theia/ai-history/lib/browser/ai-history-frontend-module'));
+        await load(
+            container,
+            require('@asmforge/assembly-language-support/lib/browser/assembly-language-support-frontend-module')
+        );
+        await load(container, require('@asmforge/ai-agent/lib/browser/nova-ai-frontend-module'));
+        await load(
+            container,
+            require('@asmforge/register-viewer/lib/browser/register-frontend-module')
+        );
+        await load(
+            container,
+            require('@asmforge/memory-viewer/lib/browser/memory-frontend-module')
+        );
+        await load(container, require('@asmforge/toolchain/lib/browser/toolchain-frontend-module'));
 
         MonacoInit.init(container);
         await start();

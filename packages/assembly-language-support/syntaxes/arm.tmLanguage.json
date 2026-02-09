@@ -1,0 +1,199 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "ARM Assembly",
+    "scopeName": "source.asm.arm",
+    "fileTypes": ["arm", "aarch64"],
+    "patterns": [
+        {
+            "include": "#comments"
+        },
+        {
+            "include": "#strings"
+        },
+        {
+            "include": "#numbers"
+        },
+        {
+            "include": "#labels"
+        },
+        {
+            "include": "#registers"
+        },
+        {
+            "include": "#instructions"
+        },
+        {
+            "include": "#directives"
+        }
+    ],
+    "repository": {
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.line.at.asm.arm",
+                    "match": "@.*$"
+                },
+                {
+                    "name": "comment.line.hash.asm.arm",
+                    "match": "//.*$"
+                },
+                {
+                    "name": "comment.line.semicolon.asm.arm",
+                    "match": ";.*$"
+                },
+                {
+                    "name": "comment.block.asm.arm",
+                    "begin": "/\\*",
+                    "end": "\\*/"
+                }
+            ]
+        },
+        "strings": {
+            "patterns": [
+                {
+                    "name": "string.quoted.double.asm.arm",
+                    "begin": "\"",
+                    "end": "\"",
+                    "patterns": [
+                        {
+                            "name": "constant.character.escape.asm.arm",
+                            "match": "\\\\."
+                        }
+                    ]
+                }
+            ]
+        },
+        "numbers": {
+            "patterns": [
+                {
+                    "name": "constant.numeric.hex.asm.arm",
+                    "match": "#?0[xX][0-9a-fA-F_]+"
+                },
+                {
+                    "name": "constant.numeric.binary.asm.arm",
+                    "match": "#?0[bB][01_]+"
+                },
+                {
+                    "name": "constant.numeric.decimal.asm.arm",
+                    "match": "#?-?[0-9][0-9_]*"
+                }
+            ]
+        },
+        "labels": {
+            "patterns": [
+                {
+                    "name": "entity.name.function.label.asm.arm",
+                    "match": "^\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s*:"
+                },
+                {
+                    "name": "entity.name.function.local-label.asm.arm",
+                    "match": "^\\s*(\\.L[a-zA-Z0-9_]+)\\s*:"
+                }
+            ]
+        },
+        "registers": {
+            "patterns": [
+                {
+                    "name": "variable.language.register.general.64bit.asm.arm",
+                    "match": "\\b(?i)(x(?:[0-9]|1[0-9]|2[0-9]|30)|xzr|sp|lr|fp)\\b"
+                },
+                {
+                    "name": "variable.language.register.general.32bit.asm.arm",
+                    "match": "\\b(?i)(w(?:[0-9]|1[0-9]|2[0-9]|30)|wzr|wsp)\\b"
+                },
+                {
+                    "name": "variable.language.register.arm32.asm.arm",
+                    "match": "\\b(?i)(r(?:[0-9]|1[0-5])|pc|sp|lr|ip|sl|fp)\\b"
+                },
+                {
+                    "name": "variable.language.register.neon.vector.asm.arm",
+                    "match": "\\b(?i)(v(?:[0-9]|[12][0-9]|3[01]))\\b"
+                },
+                {
+                    "name": "variable.language.register.neon.scalar.asm.arm",
+                    "match": "\\b(?i)([bhsdq](?:[0-9]|[12][0-9]|3[01]))\\b"
+                },
+                {
+                    "name": "variable.language.register.fpu.asm.arm",
+                    "match": "\\b(?i)(s(?:[0-9]|[12][0-9]|3[01])|d(?:[0-9]|[12][0-9]|3[01]))\\b"
+                },
+                {
+                    "name": "variable.language.register.system.asm.arm",
+                    "match": "\\b(?i)(cpsr|spsr|fpscr|fpcr|fpsr|nzcv|daif|currentel|spsel|sp_el[0-3]|elr_el[1-3]|spsr_el[1-3]|far_el[1-3]|esr_el[1-3]|vbar_el[1-3]|ttbr[01]_el[1-3]|tcr_el[1-3]|mair_el[1-3]|sctlr_el[1-3])\\b"
+                }
+            ]
+        },
+        "instructions": {
+            "patterns": [
+                {
+                    "name": "keyword.control.flow.asm.arm",
+                    "match": "\\b(?i)(b|bl|blx|bx|br|blr|ret|cbz|cbnz|tbz|tbnz|svc|hvc|smc|eret|brk|hlt)(?:\\.(?:eq|ne|cs|hs|cc|lo|mi|pl|vs|vc|hi|ls|ge|lt|gt|le|al|nv))?\\b"
+                },
+                {
+                    "name": "keyword.operator.load-store.asm.arm",
+                    "match": "\\b(?i)(ldr|ldrsb|ldrsh|ldrsw|ldrb|ldrh|ldp|ldnp|ldxr|ldxp|ldaxr|ldaxp|ldar|str|strb|strh|stp|stnp|stxr|stxp|stlxr|stlxp|stlr|prfm|prfum)(?:[bhswdq])?\\b"
+                },
+                {
+                    "name": "keyword.operator.mov.asm.arm",
+                    "match": "\\b(?i)(mov|movz|movn|movk|mvn|movi|fmov|adr|adrp)\\b"
+                },
+                {
+                    "name": "keyword.operator.arithmetic.asm.arm",
+                    "match": "\\b(?i)(add|adds|adc|adcs|sub|subs|sbc|sbcs|neg|negs|ngc|ngcs|mul|smull|umull|smulh|umulh|madd|msub|smaddl|smsubl|umaddl|umsubl|sdiv|udiv|cls|clz|rbit|rev|rev16|rev32|rev64)\\b"
+                },
+                {
+                    "name": "keyword.operator.logical.asm.arm",
+                    "match": "\\b(?i)(and|ands|orr|orn|eor|eon|bic|bics|mvn|tst|lsl|lsls|lsr|lsrs|asr|asrs|ror|rors|extr|ubfm|sbfm|bfm|ubfiz|ubfx|sbfiz|sbfx|bfi|bfxil)\\b"
+                },
+                {
+                    "name": "keyword.operator.compare.asm.arm",
+                    "match": "\\b(?i)(cmp|cmn|ccmp|ccmn|csel|cset|csetm|csinc|csinv|csneg)\\b"
+                },
+                {
+                    "name": "keyword.operator.simd.asm.arm",
+                    "match": "\\b(?i)(dup|ins|umov|smov|ld(?:1|2|3|4)(?:r)?|st(?:1|2|3|4)|tbl|tbx|zip1|zip2|uzp1|uzp2|trn1|trn2|ext|rev64|rev32|rev16|cnt|fadd|fsub|fmul|fdiv|fneg|fabs|fsqrt|fmax|fmin|fmaxnm|fminnm|fmadd|fmsub|fnmadd|fnmsub|fcmp|fcmpe|fcsel|fcvt|fcvtzs|fcvtzu|scvtf|ucvtf|frint(?:n|a|p|m|z|i|x))\\b"
+                },
+                {
+                    "name": "keyword.operator.simd.arithmetic.asm.arm",
+                    "match": "\\b(?i)(add|sub|mul|mla|mls|abs|neg|shl|sshr|ushr|ssra|usra|srshr|urshr|srsra|ursra|sqshl|uqshl|sqrshl|uqrshl|shrn|rshrn|sqshrn|uqshrn|sqrshrn|uqrshrn|sqshlu|sshll|ushll|addp|addv|saddl|uaddl|saddlp|uaddlp|saddlv|uaddlv|ssubl|usubl|smull|umull|smlal|umlal|smlsl|umlsl|smaxv|sminv|umaxv|uminv|smax|smin|umax|umin|sabd|uabd|saba|uaba|sabal|uabal|sabdl|uabdl)v?(?:2)?\\b"
+                },
+                {
+                    "name": "keyword.operator.crypto.asm.arm",
+                    "match": "\\b(?i)(aese|aesd|aesmc|aesimc|sha1c|sha1p|sha1m|sha1h|sha1su0|sha1su1|sha256h|sha256h2|sha256su0|sha256su1|sha512h|sha512h2|sha512su0|sha512su1|sm3ss1|sm3tt1a|sm3tt1b|sm3tt2a|sm3tt2b|sm3partw1|sm3partw2|sm4e|sm4ekey|bcax|eor3|rax1|xar)\\b"
+                },
+                {
+                    "name": "keyword.operator.atomic.asm.arm",
+                    "match": "\\b(?i)(ldadd|ldaddl|ldadda|ldaddal|ldclr|ldclrl|ldclra|ldclral|ldeor|ldeorl|ldeora|ldeoral|ldset|ldsetl|ldseta|ldsetal|ldsmax|ldsmaxl|ldsmaxa|ldsmaxal|ldsmin|ldsminl|ldsmina|ldsminal|ldumax|ldumaxl|ldumaxa|ldumaxal|ldumin|lduminl|ldumina|lduminal|stadd|staddl|stclr|stclrl|steor|steorl|stset|stsetl|stsmax|stsmaxl|stsmin|stsminl|stumax|stumaxl|stumin|stuminl|swp|swpl|swpa|swpal|cas|casl|casa|casal|casp|caspl|caspa|caspal)\\b"
+                },
+                {
+                    "name": "keyword.operator.misc.asm.arm",
+                    "match": "\\b(?i)(nop|wfi|wfe|sev|sevl|yield|isb|dmb|dsb|clrex|mrs|msr|sys|sysl|dc|ic|at|tlbi|hint)\\b"
+                }
+            ]
+        },
+        "directives": {
+            "patterns": [
+                {
+                    "name": "keyword.control.directive.section.asm.arm",
+                    "match": "^\\s*\\.(?:text|data|bss|rodata|section)\\b"
+                },
+                {
+                    "name": "keyword.control.directive.data.asm.arm",
+                    "match": "\\.(?:byte|hword|word|quad|octa|ascii|asciz|string|fill|space|zero|float|double|single|align|balign|p2align|skip)\\b"
+                },
+                {
+                    "name": "keyword.control.directive.symbol.asm.arm",
+                    "match": "\\.(?:global|globl|extern|weak|local|type|size|hidden|protected|func|endfunc|object|comm|common|lcomm)\\b"
+                },
+                {
+                    "name": "keyword.control.directive.macro.asm.arm",
+                    "match": "\\.(?:macro|endm|rept|endr|irp|irpc|if|ifdef|ifndef|else|elseif|endif|include|incbin|equ|equiv|set|err|error|warning|print|ltorg|pool|req|unreq|arch|arch_extension|cpu|fpu)\\b"
+                },
+                {
+                    "name": "storage.type.modifier.asm.arm",
+                    "match": "\\b(?i)(lsl|lsr|asr|ror|rrx|uxtb|uxth|uxtw|uxtx|sxtb|sxth|sxtw|sxtx)\\b"
+                }
+            ]
+        }
+    }
+}

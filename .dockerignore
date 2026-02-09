@@ -1,0 +1,41 @@
+# Ignore unnecessary files for Docker build
+node_modules
+**/node_modules
+
+# Git
+.git
+.gitignore
+
+# Build artifacts that will be regenerated
+**/dist
+**/lib
+**/src-gen
+
+# Tests
+tests
+**/*.test.ts
+**/*.spec.ts
+coverage
+
+# Documentation (not needed in container)
+docs
+*.md
+!README.md
+
+# Development files
+.vscode
+.idea
+*.log
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Electron (not needed for web)
+electron-app
+
+# Examples (optional - can be included)
+# examples

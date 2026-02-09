@@ -1,0 +1,171 @@
+{
+    "Function Prologue (RISC-V)": {
+        "prefix": [
+            "prologue",
+            "funcstart"
+        ],
+        "body": [
+            "${1:function_name}:",
+            "    addi sp, sp, -16",
+            "    sd ra, 8(sp)",
+            "    sd fp, 0(sp)",
+            "    mv fp, sp",
+            "    $0"
+        ],
+        "description": "RISC-V function prologue (RV64)"
+    },
+    "Function Epilogue (RISC-V)": {
+        "prefix": [
+            "epilogue",
+            "funcend"
+        ],
+        "body": [
+            "    ld ra, 8(sp)",
+            "    ld fp, 0(sp)",
+            "    addi sp, sp, 16",
+            "    ret"
+        ],
+        "description": "RISC-V function epilogue (RV64)"
+    },
+    "Linux Syscall (RISC-V)": {
+        "prefix": [
+            "syscall",
+            "ecall"
+        ],
+        "body": [
+            "    li a7, ${1:93}        # syscall number (93 = exit)",
+            "    li a0, ${2:0}         # arg1",
+            "    ecall"
+        ],
+        "description": "Linux RISC-V syscall"
+    },
+    "Write String (Linux RISC-V)": {
+        "prefix": [
+            "write",
+            "print"
+        ],
+        "body": [
+            "    li a7, 64             # sys_write",
+            "    li a0, 1              # stdout",
+            "    la a1, ${1:message}",
+            "    li a2, ${2:length}",
+            "    ecall"
+        ],
+        "description": "Write to stdout on Linux RISC-V"
+    },
+    "Exit Program (Linux RISC-V)": {
+        "prefix": [
+            "exit"
+        ],
+        "body": [
+            "    li a7, 93             # sys_exit",
+            "    li a0, 0              # exit code",
+            "    ecall"
+        ],
+        "description": "Exit program with code 0"
+    },
+    "Loop Counter (RISC-V)": {
+        "prefix": [
+            "loop",
+            "for"
+        ],
+        "body": [
+            "    li ${1:t0}, ${2:10}",
+            ".L${3:loop}:",
+            "    # loop body",
+            "    $0",
+            "    addi $1, $1, -1",
+            "    bnez $1, .L$3"
+        ],
+        "description": "Counter-based loop for RISC-V"
+    },
+    "Conditional Branch (RISC-V)": {
+        "prefix": [
+            "if",
+            "branch"
+        ],
+        "body": [
+            "    ${1|beq,bne,blt,bge,bltu,bgeu|} ${2:a0}, ${3:zero}, .L${4:else}",
+            "    # then block",
+            "    $0",
+            "    j .L${5:endif}",
+            ".L$4:",
+            "    # else block",
+            ".L$5:"
+        ],
+        "description": "Conditional branch with else for RISC-V"
+    },
+    "Complete RISC-V Program": {
+        "prefix": [
+            "riscv",
+            "program"
+        ],
+        "body": [
+            "# ${1:Program description}",
+            "",
+            ".data",
+            "    ${2:msg}: .asciz \"Hello, World!\\n\"",
+            "",
+            ".text",
+            ".global _start",
+            "",
+            "_start:",
+            "    # Write message",
+            "    li a7, 64",
+            "    li a0, 1",
+            "    la a1, $2",
+            "    li a2, 14",
+            "    ecall",
+            "",
+            "    # Exit",
+            "    li a7, 93",
+            "    li a0, 0",
+            "    ecall"
+        ],
+        "description": "Complete RISC-V Hello World program"
+    },
+    "Save Callee-Saved Registers (RISC-V)": {
+        "prefix": [
+            "saveregs",
+            "callee"
+        ],
+        "body": [
+            "    addi sp, sp, -80",
+            "    sd s0, 0(sp)",
+            "    sd s1, 8(sp)",
+            "    sd s2, 16(sp)",
+            "    sd s3, 24(sp)",
+            "    sd s4, 32(sp)",
+            "    sd s5, 40(sp)",
+            "    sd s6, 48(sp)",
+            "    sd s7, 56(sp)",
+            "    sd s8, 64(sp)",
+            "    sd s9, 72(sp)"
+        ],
+        "description": "Save callee-saved registers s0-s9"
+    },
+    "Function Call (RISC-V)": {
+        "prefix": [
+            "call",
+            "invoke"
+        ],
+        "body": [
+            "    mv a0, ${1:arg1}      # 1st argument",
+            "    mv a1, ${2:arg2}      # 2nd argument",
+            "    call ${3:function}",
+            "    # result in a0"
+        ],
+        "description": "Function call with argument passing"
+    },
+    "Load Immediate Large": {
+        "prefix": [
+            "li32",
+            "lui"
+        ],
+        "body": [
+            "    lui ${1:t0}, %hi(${2:value})",
+            "    addi $1, $1, %lo($2)"
+        ],
+        "description": "Load 32-bit immediate using lui+addi"
+    }
+}

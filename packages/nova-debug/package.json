@@ -12,8 +12,8 @@
         "src"
     ],
     "dependencies": {
-        "@theia/core": "1.67.0",
-        "@theia/debug": "1.67.0",
+        "@theia/core": "1.68.0",
+        "@theia/debug": "1.68.0",
         "@vscode/debugadapter": "^1.65.0",
         "@vscode/debugprotocol": "^1.65.0"
     },
@@ -27,7 +27,7 @@
         "build": "tsc",
         "watch": "tsc -w"
     },
-    "theiaExtensions": [
+    "_theiaExtensions_disabled": [
         {
             "frontend": "lib/browser/nova-debug-frontend-module",
             "backend": "lib/node/nova-debug-backend-module"

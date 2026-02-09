@@ -8,6 +8,9 @@ const yargs = require('yargs');
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const NativeWebpackPlugin = require('@theia/native-webpack-plugin');
+const {
+    MonacoWebpackPlugin,
+} = require('@theia/native-webpack-plugin/lib/monaco-webpack-plugins.js');
 
 const { mode } = yargs.option('mode', {
     description: 'Mode to use',
@@ -19,7 +22,9 @@ const production = mode === 'production';
 
 /** @type {import('webpack').EntryObject} */
 const commonJsLibraries = {};
-for (const [entryPointName, entryPointPath] of Object.entries({})) {
+for (const [entryPointName, entryPointPath] of Object.entries({
+    'parcel-watcher': '@theia/filesystem/lib/node/parcel-watcher',
+})) {
     commonJsLibraries[entryPointName] = {
         import: require.resolve(entryPointPath),
         library: {
@@ -37,13 +42,24 @@ if (process.platform !== 'win32') {
 
 const nativePlugin = new NativeWebpackPlugin({
     out: 'native',
-    trash: false,
-    ripgrep: false,
-    pty: false,
+    trash: true,
+    ripgrep: true,
+    pty: true,
     nativeBindings: {
         drivelist: 'drivelist/build/Release/drivelist.node',
     },
 });
+
+// Ensure that node-pty is correctly hoisted
+try {
+    require.resolve('node-pty');
+} catch {
+    console.error(
+        '"node-pty" dependency is not installed correctly. Ensure that it is available in the root node_modules directory.'
+    );
+    console.error('Exiting webpack build process.');
+    process.exit(1);
+}
 
 /** @type {import('webpack').Configuration} */
 const config = {
@@ -54,6 +70,9 @@ const config = {
         global: false,
         __filename: false,
         __dirname: false,
+    },
+    resolve: {
+        extensions: ['.js', '.json', '.wasm', '.node'],
     },
     output: {
         filename: '[name].js',
@@ -69,6 +88,8 @@ const config = {
         // Theia's IPC mechanism:
         'ipc-bootstrap': require.resolve('@theia/core/lib/node/messaging/ipc-bootstrap'),
 
+        // Make sure the node-pty thread worker can be executed:
+        'worker/conoutSocketWorker': require.resolve('node-pty/lib/worker/conoutSocketWorker'),
         'electron-main': require.resolve('./src-gen/backend/electron-main'),
 
         ...commonJsLibraries,
@@ -82,6 +103,10 @@ const config = {
                 options: {
                     name: 'native/[name].[ext]',
                 },
+            },
+            {
+                test: /\.d\.ts$/,
+                loader: 'ignore-loader',
             },
             {
                 test: /\.js$/,
@@ -103,6 +128,7 @@ const config = {
         new webpack.IgnorePlugin({
             checkResource: (resource) => ignoredResources.has(resource),
         }),
+        new MonacoWebpackPlugin(),
     ],
     optimization: {
         // Split and reuse code across the various entry points
@@ -120,6 +146,8 @@ const config = {
     ignoreWarnings: [
         // Some packages do not have source maps, that's ok
         /Failed to parse source map/,
+        // require with expressions are not supported
+        /the request of a dependency is an expression/,
         // Some packages use dynamic requires, we can safely ignore them (they are handled by the native webpack plugin)
         /require function is used in a way in which dependencies cannot be statically extracted/,
         {

@@ -1,10 +1,13 @@
 {
-    "name": "@nova/nova-ai",
+    "name": "@asmforge/ai-agent",
     "version": "0.1.0",
-    "description": "NOVA Assembly IDE - AI Assistant Integration",
+    "description": "AsmForge IDE - AI-powered Assembly Assistant",
     "license": "MIT",
     "keywords": [
-        "theia-extension"
+        "theia-extension",
+        "ai",
+        "assembly",
+        "gemini"
     ],
     "main": "lib/browser/nova-ai-frontend-module",
     "files": [
@@ -12,11 +15,12 @@
         "src"
     ],
     "dependencies": {
-        "@theia/core": "1.67.0",
-        "@theia/ai-core": "1.67.0",
-        "@theia/ai-chat": "1.67.0",
-        "@theia/ai-chat-ui": "1.67.0",
-        "@anthropic-ai/sdk": "^0.32.0"
+        "@theia/core": "1.68.0",
+        "@theia/ai-core": "1.68.0",
+        "@theia/ai-chat": "1.68.0",
+        "@theia/ai-chat-ui": "1.68.0",
+        "@theia/editor": "1.68.0",
+        "@theia/monaco": "1.68.0"
     },
     "devDependencies": {
         "@types/node": "^20.10.0",
@@ -30,8 +34,7 @@
     },
     "theiaExtensions": [
         {
-            "frontend": "lib/browser/nova-ai-frontend-module",
-            "backend": "lib/node/nova-ai-backend-module"
+            "frontend": "lib/browser/nova-ai-frontend-module"
         }
     ]
 }

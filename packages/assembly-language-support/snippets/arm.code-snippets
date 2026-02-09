@@ -1,0 +1,152 @@
+{
+    "Function Prologue (ARM64)": {
+        "prefix": [
+            "prologue",
+            "funcstart"
+        ],
+        "body": [
+            "${1:function_name}:",
+            "    stp x29, x30, [sp, #-16]!",
+            "    mov x29, sp",
+            "    $0"
+        ],
+        "description": "ARM64 function prologue"
+    },
+    "Function Epilogue (ARM64)": {
+        "prefix": [
+            "epilogue",
+            "funcend"
+        ],
+        "body": [
+            "    ldp x29, x30, [sp], #16",
+            "    ret"
+        ],
+        "description": "ARM64 function epilogue"
+    },
+    "Linux Syscall (ARM64)": {
+        "prefix": [
+            "syscall",
+            "svc"
+        ],
+        "body": [
+            "    mov x8, #${1:93}      // syscall number (93 = exit)",
+            "    mov x0, #${2:0}       // arg1",
+            "    svc #0"
+        ],
+        "description": "Linux ARM64 syscall"
+    },
+    "Write String (Linux ARM64)": {
+        "prefix": [
+            "write",
+            "print"
+        ],
+        "body": [
+            "    mov x8, #64           // sys_write",
+            "    mov x0, #1            // stdout",
+            "    ldr x1, =${1:message}",
+            "    mov x2, #${2:length}",
+            "    svc #0"
+        ],
+        "description": "Write to stdout on Linux ARM64"
+    },
+    "Exit Program (Linux ARM64)": {
+        "prefix": [
+            "exit"
+        ],
+        "body": [
+            "    mov x8, #93           // sys_exit",
+            "    mov x0, #0            // exit code",
+            "    svc #0"
+        ],
+        "description": "Exit program with code 0"
+    },
+    "Loop Counter (ARM64)": {
+        "prefix": [
+            "loop",
+            "for"
+        ],
+        "body": [
+            "    mov ${1:x9}, #${2:10}",
+            ".L${3:loop}:",
+            "    // loop body",
+            "    $0",
+            "    subs $1, $1, #1",
+            "    bne .L$3"
+        ],
+        "description": "Counter-based loop for ARM64"
+    },
+    "Conditional Branch (ARM64)": {
+        "prefix": [
+            "if",
+            "branch"
+        ],
+        "body": [
+            "    cmp ${1:x0}, #${2:0}",
+            "    ${3|beq,bne,bgt,bge,blt,ble|} .L${4:else}",
+            "    // then block",
+            "    $0",
+            "    b .L${5:endif}",
+            ".L$4:",
+            "    // else block",
+            ".L$5:"
+        ],
+        "description": "Conditional branch with else for ARM64"
+    },
+    "Complete ARM64 Program": {
+        "prefix": [
+            "arm64",
+            "program"
+        ],
+        "body": [
+            "// ${1:Program description}",
+            "",
+            ".data",
+            "    ${2:msg}: .asciz \"Hello, World!\\n\"",
+            "    ${2}_len = . - $2",
+            "",
+            ".text",
+            ".global _start",
+            "",
+            "_start:",
+            "    // Write message",
+            "    mov x8, #64",
+            "    mov x0, #1",
+            "    ldr x1, =$2",
+            "    mov x2, #${2}_len",
+            "    svc #0",
+            "",
+            "    // Exit",
+            "    mov x8, #93",
+            "    mov x0, #0",
+            "    svc #0"
+        ],
+        "description": "Complete ARM64 Hello World program"
+    },
+    "Save Callee-Saved Registers (ARM64)": {
+        "prefix": [
+            "saveregs",
+            "callee"
+        ],
+        "body": [
+            "    stp x19, x20, [sp, #-16]!",
+            "    stp x21, x22, [sp, #-16]!",
+            "    stp x23, x24, [sp, #-16]!",
+            "    stp x25, x26, [sp, #-16]!",
+            "    stp x27, x28, [sp, #-16]!"
+        ],
+        "description": "Save callee-saved registers x19-x28"
+    },
+    "NEON Load/Store": {
+        "prefix": [
+            "neon",
+            "simd"
+        ],
+        "body": [
+            "    ld1 {${1:v0}.${2|4s,2d,8h,16b|}}, [${3:x0}]",
+            "    // NEON operation",
+            "    $0",
+            "    st1 {$1.$2}, [$3]"
+        ],
+        "description": "NEON SIMD load, operate, store pattern"
+    }
+}
