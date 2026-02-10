@@ -188,7 +188,7 @@ export class MemoryServiceImpl implements MemoryService {
                 break;
             case 'int64':
             case 'uint64':
-            case 'pointer':
+            case 'pointer': {
                 // Format as hex address
                 const low = view.getUint32(0, true);
                 const high = view.getUint32(4, true);
@@ -198,6 +198,7 @@ export class MemoryServiceImpl implements MemoryService {
                         ? '0x' + bigVal.toString(16).padStart(16, '0')
                         : bigVal.toString();
                 break;
+            }
             case 'float32':
                 value = view.getFloat32(0, true).toPrecision(6);
                 break;

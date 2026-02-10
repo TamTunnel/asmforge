@@ -123,14 +123,6 @@ test.asm:20: warning: numeric overflow
 
     describe('Build Configurations', () => {
         it('should generate correct x86-64 NASM command', () => {
-            const config = {
-                assembler: 'nasm',
-                architecture: 'x86_64',
-                outputFormat: 'elf64',
-                source: 'main.asm',
-                output: 'main.o',
-            };
-
             const expectedArgs = ['-f', 'elf64', '-o', 'main.o', 'main.asm'];
 
             // Verify expected args are generated
@@ -139,38 +131,18 @@ test.asm:20: warning: numeric overflow
         });
 
         it('should generate correct ARM GAS command', () => {
-            const config = {
-                assembler: 'gas',
-                architecture: 'arm64',
-                source: 'main.s',
-                output: 'main.o',
-            };
-
             const expectedArgs = ['-march=armv8-a', '-o', 'main.o', 'main.s'];
 
             expect(expectedArgs).toContain('-march=armv8-a');
         });
 
         it('should generate correct RISC-V command', () => {
-            const config = {
-                assembler: 'gas',
-                architecture: 'riscv64',
-                source: 'main.s',
-                output: 'main.o',
-            };
-
             const expectedArgs = ['-march=rv64gc', '-o', 'main.o', 'main.s'];
 
             expect(expectedArgs).toContain('-march=rv64gc');
         });
 
         it('should include listing file generation', () => {
-            const config = {
-                assembler: 'nasm',
-                source: 'main.asm',
-                generateListing: true,
-            };
-
             const expectedArgs = ['-l', 'main.lst'];
 
             expect(expectedArgs).toContain('-l');

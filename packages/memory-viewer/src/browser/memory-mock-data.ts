@@ -69,7 +69,7 @@ function randomByte(): number {
 /** Generate realistic memory content based on region */
 function generateRegionByte(address: bigint, region: MemoryRegion): number {
     switch (region) {
-        case 'code':
+        case 'code': {
             // x86 opcodes are varied but often have patterns
             const codePatterns = [
                 0x48,
@@ -90,8 +90,9 @@ function generateRegionByte(address: bigint, region: MemoryRegion): number {
                 0x45, // mov rax, [rbp+...]
             ];
             return codePatterns[Number(address % BigInt(codePatterns.length))];
+        }
 
-        case 'stack':
+        case 'stack': {
             // Stack often has addresses and small values
             const stackPos = Number(address % BigInt(8));
             if (stackPos < 6) {
@@ -99,16 +100,19 @@ function generateRegionByte(address: bigint, region: MemoryRegion): number {
                 return [0x7f, 0xff, 0xff, 0xff, 0xde, 0x80, randomByte(), randomByte()][stackPos];
             }
             return randomByte();
+        }
 
-        case 'heap':
+        case 'heap': {
             // Heap has mixed data
             return randomByte();
+        }
 
-        case 'data':
+        case 'data': {
             // Data section often has strings and initialized values
             const printableChars = 'Hello, World! This is test data.\0';
             const idx = Number(address % BigInt(printableChars.length));
             return printableChars.charCodeAt(idx);
+        }
 
         default:
             return 0;

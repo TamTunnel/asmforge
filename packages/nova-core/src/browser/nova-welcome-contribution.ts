@@ -17,7 +17,7 @@ export class NovaWelcomeContribution implements FrontendApplicationContribution 
     console.log("NOVA Assembly IDE initialized");
   }
 
-  async onStart(app: FrontendApplication): Promise<void> {
+  async onStart(_app: FrontendApplication): Promise<void> {
     console.log("🚀 NOVA Assembly IDE - Neural Optimization Virtual Assistant");
     console.log("   Supported architectures: x86, x64, ARM, AArch64, RISC-V");
     console.log("   Assemblers: NASM, GAS, MASM, FASM");
