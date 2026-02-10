@@ -6,8 +6,6 @@
 describe('Nova AI Assistant', () => {
     describe('Assembly Query Handling', () => {
         it('should explain x86 instructions', async () => {
-            const query = 'Explain the MOV instruction in x86';
-
             // Mock AI response
             const mockResponse = {
                 explanation: 'MOV copies data from source to destination',
@@ -21,8 +19,6 @@ describe('Nova AI Assistant', () => {
         });
 
         it('should explain ARM instructions', async () => {
-            const query = 'What does LDR do in ARM?';
-
             const mockResponse = {
                 explanation: 'LDR loads a value from memory into a register',
                 syntax: 'LDR Rd, [Rn, #offset]',
@@ -34,8 +30,6 @@ describe('Nova AI Assistant', () => {
         });
 
         it('should explain RISC-V instructions', async () => {
-            const query = 'Explain ADDI in RISC-V';
-
             const mockResponse = {
                 explanation: 'ADDI adds an immediate value to a register',
                 syntax: 'addi rd, rs1, imm',
@@ -48,14 +42,6 @@ describe('Nova AI Assistant', () => {
 
     describe('Code Optimization Suggestions', () => {
         it('should suggest loop optimizations', async () => {
-            const code = `
-                mov ecx, 100
-            loop_start:
-                add eax, 1
-                dec ecx
-                jnz loop_start
-            `;
-
             const mockSuggestions = [
                 'Consider using loop instruction',
                 'Use lea for address calculations',
@@ -67,13 +53,6 @@ describe('Nova AI Assistant', () => {
         });
 
         it('should suggest register usage improvements', async () => {
-            const code = `
-                push eax
-                mov eax, [memory]
-                add [result], eax
-                pop eax
-            `;
-
             const mockSuggestions = ['Use a different register to avoid push/pop overhead'];
 
             expect(mockSuggestions.length).toBeGreaterThan(0);
@@ -82,12 +61,6 @@ describe('Nova AI Assistant', () => {
 
     describe('Debug Assistance', () => {
         it('should help diagnose segfaults', async () => {
-            const errorContext = {
-                signal: 'SIGSEGV',
-                address: '0x0',
-                registers: { rip: '0x401234', rsp: '0x7fff0000' },
-            };
-
             const mockDiagnosis = {
                 likelyCause: 'NULL pointer dereference',
                 suggestions: [
@@ -102,12 +75,6 @@ describe('Nova AI Assistant', () => {
         });
 
         it('should explain stack traces', async () => {
-            const stackTrace = [
-                { func: '_start', address: '0x401000' },
-                { func: 'main', address: '0x401100' },
-                { func: 'crash_here', address: '0x401200' },
-            ];
-
             const mockExplanation =
                 'Execution started at _start, entered main, then crash_here where the error occurred';
 

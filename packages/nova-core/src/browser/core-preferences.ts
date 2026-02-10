@@ -10,11 +10,10 @@ import {
     PreferenceService,
     PreferenceContribution,
     PreferenceSchema,
-} from '@theia/core/lib/browser/preferences';
+} from '@theia/core/lib/common/preferences';
 
 /** Core preference schema */
 export const CorePreferenceSchema: PreferenceSchema = {
-    type: 'object',
     properties: {
         // =============================================
         // Architecture Settings

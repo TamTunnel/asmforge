@@ -3,9 +3,7 @@ require('reflect-metadata');
 const { Container } = require('@theia/core/shared/inversify');
 
 module.exports = Promise.resolve().then(() => {
-    const {
-        frontendApplicationModule,
-    } = require('@theia/core/lib/browser/frontend-application-module');
+    const { frontendApplicationModule } = require('@theia/core/lib/browser/frontend-application-module');
     const container = new Container();
     container.load(frontendApplicationModule);
     container.load(require('@theia/editor/lib/browser/editor-frontend-module').default);

@@ -21,70 +21,67 @@ process.env.LC_NUMERIC = 'C';
     const { resolve } = require('path');
     const theiaAppProjectPath = resolve(__dirname, '..', '..');
     process.env.THEIA_APP_PROJECT_PATH = theiaAppProjectPath;
-    const {
-        default: electronMainApplicationModule,
-    } = require('@theia/core/lib/electron-main/electron-main-application-module');
-    const {
-        ElectronMainApplication,
-        ElectronMainApplicationGlobals,
-    } = require('@theia/core/lib/electron-main/electron-main-application');
+    const { default: electronMainApplicationModule } = require('@theia/core/lib/electron-main/electron-main-application-module');
+    const { ElectronMainApplication, ElectronMainApplicationGlobals } = require('@theia/core/lib/electron-main/electron-main-application');
     const { Container } = require('@theia/core/shared/inversify');
     const { app } = require('electron');
 
     const config = {
-        applicationName: 'AsmForge IDE',
-        defaultTheme: {
-            light: 'light',
-            dark: 'dark',
-        },
-        defaultIconTheme: 'theia-file-icons',
-        electron: {
-            windowOptions: {},
-            showWindowEarly: true,
-            splashScreenOptions: {},
-            uriScheme: 'theia',
-        },
-        defaultLocale: '',
-        validatePreferencesSchema: true,
-        reloadOnReconnect: false,
-        uriScheme: 'theia',
-        splashLogo: 'resources/asmforge-splash.svg',
-        preferences: {
-            'workbench.colorTheme': 'dark',
-            'editor.fontSize': 14,
-            'editor.fontFamily':
-                "'JetBrains Mono', 'Fira Code', 'Source Code Pro', 'Consolas', monospace",
-            'editor.fontLigatures': true,
-            'editor.tabSize': 4,
-            'editor.insertSpaces': false,
-            'editor.minimap.enabled': true,
-            'editor.cursorStyle': 'block',
-            'editor.rulers': [80, 120],
-            'terminal.integrated.fontFamily': "'JetBrains Mono', 'Fira Code', monospace",
-            'terminal.integrated.fontSize': 13,
-            'workbench.iconTheme': 'theia-file-icons',
-            'workbench.colorCustomizations': {
-                'editor.background': '#0d1117',
-                'editor.foreground': '#c9d1d9',
-                'editorLineNumber.foreground': '#6e7681',
-                'editorLineNumber.activeForeground': '#f0883e',
-                'editor.selectionBackground': '#264f78',
-                'editor.lineHighlightBackground': '#161b22',
-                'activityBar.background': '#0d1117',
-                'activityBar.foreground': '#f0883e',
-                'sideBar.background': '#0d1117',
-                'sideBar.foreground': '#c9d1d9',
-                'sideBarSectionHeader.background': '#161b22',
-                'titleBar.activeBackground': '#0d1117',
-                'titleBar.activeForeground': '#f0883e',
-                'statusBar.background': '#0d1117',
-                'statusBar.foreground': '#8b949e',
-                'terminal.background': '#0d1117',
-                'terminal.foreground': '#c9d1d9',
-                'panel.background': '#0d1117',
-            },
-        },
-    };
+    "applicationName": "AsmForge IDE",
+    "defaultTheme": {
+        "light": "light",
+        "dark": "dark"
+    },
+    "defaultIconTheme": "theia-file-icons",
+    "electron": {
+        "windowOptions": {},
+        "showWindowEarly": true,
+        "splashScreenOptions": {},
+        "uriScheme": "theia"
+    },
+    "defaultLocale": "",
+    "validatePreferencesSchema": true,
+    "reloadOnReconnect": false,
+    "uriScheme": "theia",
+    "splashLogo": "resources/asmforge-splash.svg",
+    "preferences": {
+        "workbench.colorTheme": "dark",
+        "editor.fontSize": 14,
+        "editor.fontFamily": "'JetBrains Mono', 'Fira Code', 'Source Code Pro', 'Consolas', monospace",
+        "editor.fontLigatures": true,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": false,
+        "editor.minimap.enabled": true,
+        "editor.cursorStyle": "block",
+        "editor.rulers": [
+            80,
+            120
+        ],
+        "terminal.integrated.fontFamily": "'JetBrains Mono', 'Fira Code', monospace",
+        "terminal.integrated.fontSize": 13,
+        "workbench.iconTheme": "theia-file-icons",
+        "workbench.colorCustomizations": {
+            "editor.background": "#0d1117",
+            "editor.foreground": "#c9d1d9",
+            "editorLineNumber.foreground": "#6e7681",
+            "editorLineNumber.activeForeground": "#f0883e",
+            "editor.selectionBackground": "#264f78",
+            "editor.lineHighlightBackground": "#161b22",
+            "activityBar.background": "#0d1117",
+            "activityBar.foreground": "#f0883e",
+            "sideBar.background": "#0d1117",
+            "sideBar.foreground": "#c9d1d9",
+            "sideBarSectionHeader.background": "#161b22",
+            "titleBar.activeBackground": "#0d1117",
+            "titleBar.activeForeground": "#f0883e",
+            "statusBar.background": "#0d1117",
+            "statusBar.foreground": "#8b949e",
+            "terminal.background": "#0d1117",
+            "terminal.foreground": "#c9d1d9",
+            "panel.background": "#0d1117"
+        }
+    }
+};
     const isSingleInstance = true;
 
     if (isSingleInstance && !app.requestSingleInstanceLock(process.argv)) {
@@ -99,18 +96,13 @@ process.env.LC_NUMERIC = 'C';
         THEIA_APP_PROJECT_PATH: theiaAppProjectPath,
         THEIA_BACKEND_MAIN_PATH: resolve(__dirname, 'main.js'),
         THEIA_FRONTEND_HTML_PATH: resolve(__dirname, '..', '..', 'lib', 'frontend', 'index.html'),
-        THEIA_SECONDARY_WINDOW_HTML_PATH: resolve(
-            __dirname,
-            '..',
-            '..',
-            'lib',
-            'frontend',
-            'secondary-window.html'
-        ),
+        THEIA_SECONDARY_WINDOW_HTML_PATH: resolve(__dirname, '..', '..', 'lib', 'frontend', 'secondary-window.html')
     });
 
     function load(raw) {
-        return Promise.resolve(raw.default).then((module) => container.load(module));
+        return Promise.resolve(raw.default).then(module =>
+            container.load(module)
+        );
     }
 
     async function start() {
@@ -129,5 +121,5 @@ process.env.LC_NUMERIC = 'C';
             }
         }
         app.quit();
-    }
+    };
 })();

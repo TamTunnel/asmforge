@@ -7,18 +7,12 @@ if ('ELECTRON_RUN_AS_NODE' in process.env) {
 }
 
 const path = require('path');
-process.env.THEIA_APP_PROJECT_PATH = path.resolve(__dirname, '..', '..');
+process.env.THEIA_APP_PROJECT_PATH = path.resolve(__dirname, '..', '..')
 const express = require('@theia/core/shared/express');
 const { Container } = require('@theia/core/shared/inversify');
-const {
-    BackendApplication,
-    BackendApplicationServer,
-    CliManager,
-} = require('@theia/core/lib/node');
+const { BackendApplication, BackendApplicationServer, CliManager } = require('@theia/core/lib/node');
 const { backendApplicationModule } = require('@theia/core/lib/node/backend-application-module');
-const {
-    messagingBackendModule,
-} = require('@theia/core/lib/node/messaging/messaging-backend-module');
+const { messagingBackendModule } = require('@theia/core/lib/node/messaging/messaging-backend-module');
 const { loggerBackendModule } = require('@theia/core/lib/node/logger-backend-module');
 
 const container = new Container();
@@ -27,11 +21,13 @@ container.load(messagingBackendModule);
 container.load(loggerBackendModule);
 
 function defaultServeStatic(app) {
-    app.use(express.static(path.resolve(__dirname, '../../lib/frontend')));
+    app.use(express.static(path.resolve(__dirname, '../../lib/frontend')))
 }
 
 function load(raw) {
-    return Promise.resolve(raw).then((module) => container.load(module.default));
+    return Promise.resolve(raw).then(
+        module => container.load(module.default)
+    );
 }
 
 async function start(port, host, argv = process.argv) {
@@ -39,13 +35,11 @@ async function start(port, host, argv = process.argv) {
         container.bind(BackendApplicationServer).toConstantValue({ configure: defaultServeStatic });
     }
     let result = undefined;
-    await container.get(CliManager).initializeCli(
-        argv.slice(2),
+    await container.get(CliManager).initializeCli(argv.slice(2),
         () => container.get(BackendApplication).configured,
         async () => {
             result = container.get(BackendApplication).start(port, host);
-        }
-    );
+        });
     if (result) {
         return result;
     } else {
@@ -69,9 +63,7 @@ module.exports = async (port, host, argv) => {
         await load(require('@theia/preferences/lib/node/preference-backend-module'));
         await load(require('@theia/process/lib/common/process-common-module'));
         await load(require('@theia/process/lib/node/process-backend-module'));
-        await load(
-            require('@theia/search-in-workspace/lib/node/search-in-workspace-backend-module')
-        );
+        await load(require('@theia/search-in-workspace/lib/node/search-in-workspace-backend-module'));
         await load(require('@theia/file-search/lib/node/file-search-backend-module'));
         await load(require('@theia/terminal/lib/node/terminal-backend-module'));
         await load(require('@theia/task/lib/node/task-backend-module'));
@@ -92,4 +84,4 @@ module.exports = async (port, host, argv) => {
         }
         throw error;
     }
-};
+}

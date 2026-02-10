@@ -12,7 +12,10 @@ RUN apk add --no-cache \
     make \
     g++ \
     git \
-    libsecret-dev
+    libsecret-dev \
+    libx11-dev \
+    libxkbfile-dev \
+    pkgconf
 
 WORKDIR /app
 
@@ -48,7 +51,9 @@ RUN addgroup -g 1001 -S asmforge && \
 RUN apk add --no-cache \
     libsecret \
     git \
-    curl
+    curl \
+    libx11 \
+    libxkbfile
 
 WORKDIR /app
 
