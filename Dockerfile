@@ -32,7 +32,7 @@ COPY packages/register-viewer/package*.json ./packages/register-viewer/
 COPY packages/toolchain/package*.json ./packages/toolchain/
 
 # Install dependencies
-RUN npm ci --ignore-scripts
+RUN npm ci
 
 # Copy source code
 COPY . .
