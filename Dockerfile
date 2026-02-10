@@ -12,7 +12,10 @@ RUN apk add --no-cache \
     make \
     g++ \
     git \
-    libsecret-dev
+    libsecret-dev \
+    libx11-dev \
+    libxkbfile-dev \
+    pkgconf
 
 WORKDIR /app
 
@@ -29,13 +32,16 @@ COPY packages/register-viewer/package*.json ./packages/register-viewer/
 COPY packages/toolchain/package*.json ./packages/toolchain/
 
 # Install dependencies
-RUN npm ci --ignore-scripts
+RUN npm ci
 
 # Copy source code
 COPY . .
 
 # Build the application
 RUN npm run build:all
+
+# Ensure plugins directory exists (even if empty)
+RUN mkdir -p /app/plugins
 
 # Stage 2: Production runtime
 FROM node:20-alpine AS runtime
@@ -48,7 +54,9 @@ RUN addgroup -g 1001 -S asmforge && \
 RUN apk add --no-cache \
     libsecret \
     git \
-    curl
+    curl \
+    libx11 \
+    libxkbfile
 
 WORKDIR /app
 
