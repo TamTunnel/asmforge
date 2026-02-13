@@ -138,11 +138,16 @@ export class GdbDebugSessionImpl implements GdbDebugSession {
 
         // Load program or attach
         if (config.request === 'launch' && config.program) {
-            await this.sendCommand(`file ${config.program}`);
+            // Quote the program path to handle paths with spaces
+            const escapedProgram = config.program.replace(/"/g, '\\"');
+            await this.sendCommand(`file "${escapedProgram}"`);
 
             // Set args if provided
             if (config.args && config.args.length > 0) {
-                await this.sendCommand(`set args ${config.args.join(' ')}`);
+                const escapedArgs = config.args.map((a) =>
+                    a.includes(' ') ? `"${a.replace(/"/g, '\\"')}"` : a
+                );
+                await this.sendCommand(`set args ${escapedArgs.join(' ')}`);
             }
 
             // Run

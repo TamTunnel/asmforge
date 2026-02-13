@@ -8,6 +8,18 @@ import { ProblemManager } from '@theia/markers/lib/browser/problem/problem-manag
 import { AssemblerDiagnostic, DiagnosticSeverity } from '../common/toolchain-types';
 import URI from '@theia/core/lib/common/uri';
 
+/** Marker data for the problem manager */
+interface MarkerData {
+    range: {
+        start: { line: number; character: number };
+        end: { line: number; character: number };
+    };
+    message: string;
+    severity: number;
+    source: string;
+    code?: string;
+}
+
 /** Monaco severity enum values */
 const SeverityMap = {
     Error: 1,
@@ -43,7 +55,7 @@ export class ToolchainDiagnosticProviderImpl implements ToolchainDiagnosticProvi
         const markers = diagnostics.map((d) => this.convertDiagnostic(d));
 
         // Set markers
-        this.problemManager.setMarkers(uri, ToolchainDiagnosticProviderImpl.OWNER, markers);
+        this.problemManager.setMarkers(uri, ToolchainDiagnosticProviderImpl.OWNER, markers as any);
     }
 
     clearDiagnostics(fileUri: string): void {
@@ -56,7 +68,7 @@ export class ToolchainDiagnosticProviderImpl implements ToolchainDiagnosticProvi
         // This would need to track all files we've set markers on
     }
 
-    private convertDiagnostic(diag: AssemblerDiagnostic): any {
+    private convertDiagnostic(diag: AssemblerDiagnostic): MarkerData {
         return {
             range: {
                 start: {

@@ -9,19 +9,19 @@ import { AbstractViewContribution, FrontendApplicationContribution } from '@thei
 import { FrontendApplication } from '@theia/core/lib/browser/frontend-application';
 import { MemoryViewerWidget, MEMORY_VIEWER_ID } from './memory-widget';
 
-export namespace MemoryViewerCommands {
-    export const TOGGLE: Command = {
+export const MemoryViewerCommands = {
+    TOGGLE: {
         id: 'memory-viewer.toggle',
         label: 'Toggle Memory View',
         category: 'View',
-    };
+    } as Command,
 
-    export const JUMP_TO_ADDRESS: Command = {
+    JUMP_TO_ADDRESS: {
         id: 'memory-viewer.jumpToAddress',
         label: 'Jump to Address',
         category: 'Debug',
-    };
-}
+    } as Command,
+};
 
 @injectable()
 export class MemoryViewerContribution

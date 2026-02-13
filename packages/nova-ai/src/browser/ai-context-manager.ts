@@ -73,6 +73,10 @@ class ConversationCache {
         this.set(sessionId, messages);
     }
 
+    delete(sessionId: string): void {
+        this.cache.delete(sessionId);
+    }
+
     clear(): void {
         this.cache.clear();
     }
@@ -142,8 +146,7 @@ export class AIContextManager {
      */
     clearHistory(sessionId?: string): void {
         if (sessionId) {
-            // Clear specific session (not directly supported, would need cache modification)
-            this.conversationCache.clear();
+            this.conversationCache.delete(sessionId);
         } else {
             this.conversationCache.clear();
         }

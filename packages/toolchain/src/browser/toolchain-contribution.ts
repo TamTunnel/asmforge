@@ -16,13 +16,14 @@ import {
 import { KeybindingContribution, KeybindingRegistry } from '@theia/core/lib/browser';
 import { EditorManager } from '@theia/editor/lib/browser';
 import { OutputChannelManager, OutputChannel } from '@theia/output/lib/browser/output-channel';
-import { ToolchainCommands } from './toolchain-commands';
+import * as ToolchainCommands from './toolchain-commands';
 import { ToolchainDiagnosticProvider } from './toolchain-diagnostic-provider';
 import {
     AssemblerType,
     DEFAULT_ASSEMBLER_CONFIGS,
     BuildConfig,
     AssemblerConfig,
+    AssemblerDiagnostic,
     ArchitectureTarget,
     OutputFormat,
 } from '../common/toolchain-types';
@@ -33,19 +34,21 @@ export const AssemblerServiceClient = Symbol('AssemblerServiceClient');
 /** Client-side interface for calling backend assembler service */
 export interface AssemblerServiceClient {
     checkAssembler(type: AssemblerType): Promise<{ available: boolean; version?: string }>;
-    assemble(
-        config: BuildConfig
-    ): Promise<{
+    assemble(config: BuildConfig): Promise<{
         success: boolean;
         exitCode: number;
-        diagnostics: any[];
+        diagnostics: AssemblerDiagnostic[];
         stdout: string;
         stderr: string;
         duration: number;
         outputFile?: string;
         listingFile?: string;
     }>;
-    link(objectFiles: string[], outputFile: string, flags: string[]): Promise<any>;
+    link(
+        objectFiles: string[],
+        outputFile: string,
+        flags: string[]
+    ): Promise<{ success: boolean; exitCode: number; stderr: string }>;
 }
 
 @injectable()
@@ -53,7 +56,7 @@ export class ToolchainContribution
     implements CommandContribution, MenuContribution, KeybindingContribution
 {
     private outputChannel: OutputChannel | undefined;
-    private preferences: Map<string, any> = new Map();
+    private preferences: Map<string, string | boolean | number | string[]> = new Map();
 
     @inject(MessageService)
     protected readonly messageService!: MessageService;
@@ -75,10 +78,10 @@ export class ToolchainContribution
 
     // Use local preferences store for now
     private getPreference<T>(key: string, defaultValue: T): T {
-        return this.preferences.has(key) ? this.preferences.get(key) : defaultValue;
+        return (this.preferences.has(key) ? this.preferences.get(key) : defaultValue) as T;
     }
 
-    private setPreference(key: string, value: any): void {
+    private setPreference(key: string, value: string | boolean | number | string[]): void {
         this.preferences.set(key, value);
     }
 
@@ -391,7 +394,7 @@ export class ToolchainContribution
         });
 
         if (selected) {
-            this.setPreference('asmforge.assembler.default', selected.id);
+            this.setPreference('asmforge.assembler.default', selected.id!);
             this.messageService.info(`Default assembler set to ${selected.label}`);
         }
     }

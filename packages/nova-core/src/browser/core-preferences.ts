@@ -5,12 +5,11 @@
 
 import { interfaces } from '@theia/core/shared/inversify';
 import {
-    createPreferenceProxy,
     PreferenceProxy,
-    PreferenceService,
     PreferenceContribution,
     PreferenceSchema,
 } from '@theia/core/lib/common/preferences';
+import { PreferenceProxyFactory } from '@theia/core/lib/common/preferences';
 
 /** Core preference schema */
 export const CorePreferenceSchema: PreferenceSchema = {
@@ -163,15 +162,15 @@ export interface CorePreferenceConfiguration {
 export const CorePreferences = Symbol('CorePreferences');
 export type CorePreferences = PreferenceProxy<CorePreferenceConfiguration>;
 
-export function createCorePreferences(preferences: PreferenceService): CorePreferences {
-    return createPreferenceProxy(preferences, CorePreferenceSchema);
+export function createCorePreferences(factory: PreferenceProxyFactory): CorePreferences {
+    return factory(CorePreferenceSchema);
 }
 
 export function bindCorePreferences(bind: interfaces.Bind): void {
     bind(CorePreferences)
         .toDynamicValue((ctx) => {
-            const preferences = ctx.container.get<PreferenceService>(PreferenceService);
-            return createCorePreferences(preferences);
+            const factory = ctx.container.get<PreferenceProxyFactory>(PreferenceProxyFactory);
+            return createCorePreferences(factory);
         })
         .inSingletonScope();
 

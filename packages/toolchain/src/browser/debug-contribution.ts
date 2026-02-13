@@ -19,25 +19,25 @@ import {
     generateLaunchJson,
 } from './debug-launch-configs';
 
-export namespace DebugCommands {
-    export const START_DEBUG: Command = {
+export const DebugCommands = {
+    START_DEBUG: {
         id: 'asmforge.debug.start',
         label: 'Start Debugging',
         category: 'Debug',
-    };
+    } as Command,
 
-    export const GENERATE_LAUNCH_JSON: Command = {
+    GENERATE_LAUNCH_JSON: {
         id: 'asmforge.debug.generateLaunch',
         label: 'Generate launch.json',
         category: 'Debug',
-    };
+    } as Command,
 
-    export const DEBUG_QEMU: Command = {
+    DEBUG_QEMU: {
         id: 'asmforge.debug.qemu',
         label: 'Debug with QEMU',
         category: 'Debug',
-    };
-}
+    } as Command,
+};
 
 @injectable()
 export class DebugContribution implements CommandContribution {

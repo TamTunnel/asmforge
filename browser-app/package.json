@@ -39,8 +39,8 @@
     },
     "scripts": {
         "clean": "rimraf lib gen-webpack.config.js src-gen",
-        "build": "theia build --mode production",
-        "build:dev": "theia build --mode development",
+        "build": "theia build --mode production && node patch.js",
+        "build:dev": "theia build --mode development && node patch.js",
         "start": "theia start --hostname 0.0.0.0 --port 3000",
         "start:debug": "theia start --hostname 0.0.0.0 --port 3000 --log-level=debug",
         "watch": "theia build --watch --mode development"

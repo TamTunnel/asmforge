@@ -11,19 +11,19 @@ import { FrontendApplication } from '@theia/core/lib/browser/frontend-applicatio
 import { RegisterViewerWidget, REGISTER_VIEWER_ID } from './register-widget';
 
 /** Command definitions */
-export namespace RegisterViewerCommands {
-    export const TOGGLE: Command = {
+export const RegisterViewerCommands = {
+    TOGGLE: {
         id: 'register-viewer.toggle',
         label: 'Toggle CPU Registers',
         category: 'View',
-    };
+    } as Command,
 
-    export const SIMULATE_CHANGE: Command = {
+    SIMULATE_CHANGE: {
         id: 'register-viewer.simulateChange',
         label: 'Simulate Register Change',
         category: 'Debug',
-    };
-}
+    } as Command,
+};
 
 @injectable()
 export class RegisterViewerContribution
